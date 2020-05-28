@@ -1,0 +1,9 @@
+1. Find out what doxygen is
+2. Find out how to write cmake test files
+3. Find out how to do documentation more effectively
+4. Finish dualshock.h
+5. Write tests for dualshock.h
+6. Get opencv to work
+7. organize everything
+8. learn about enum types X
+9. event handling c++
