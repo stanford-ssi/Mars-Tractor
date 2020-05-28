@@ -7,3 +7,7 @@
 7. organize everything
 8. learn about enum types X
 9. event handling c++
+
+Dependencies:
+opencv
+sudo apt install libgtest.dev
