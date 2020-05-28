@@ -15,7 +15,7 @@ file(GLOB TESTFILES tests/dsTest.cpp src/libs/*.cpp src/include*.h)
 find_package(OpenCV REQUIRED)
 
 add_executable(tractor ${SRCFILES})
-add_executable(tests ${TESTFILES})
+#add_executable(tests ${TESTFILES})
 
 target_link_libraries( tractor ${OpenCV_LIBS})
 target_include_directories(tractor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
