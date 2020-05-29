@@ -1,6 +1,8 @@
 #ifndef axis_Included
 #define axis_Included
 
+#include <stdlib>
+
 class Axis
 {
     public:

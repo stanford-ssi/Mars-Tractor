@@ -5,9 +5,13 @@ class Trigger
 {
     public:
         Trigger();
+        Trigger(float threshold);
         float getValue();
+        bool isDown();
+        setThreshold(float threshold);
     private:
-        float x, y;
+        float z;
+        float threshold = .75;
 };
 
 #endif
