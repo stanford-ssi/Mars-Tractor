@@ -1,5 +1,5 @@
-#ifndef dualshock_Included
-#define dualshock_Included
+#ifndef _dualshock_Included
+#define _dualshock_Included
 
 #include <linux/joystick.h>
 #include <fcntl.h>

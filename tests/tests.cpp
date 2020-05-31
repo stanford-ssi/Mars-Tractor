@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "point.h"
 
 TEST(gtest, Check)
 {

@@ -1,4 +1,4 @@
-#include <dualshock.h>
+#include "dualshock.h"
 
 Gamepad::Gamepad(int fd)
 {

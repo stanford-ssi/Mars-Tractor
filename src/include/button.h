@@ -1,5 +1,5 @@
-#ifndef button_Included
-#define button_Included
+#ifndef _button_Included
+#define _button_Included
 
 class Button
 {

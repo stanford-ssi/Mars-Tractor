@@ -10,17 +10,18 @@ Trigger::Trigger(float threshold)
     threshold = threshold;
 }
 
-Trigger::getValue()
+float Trigger::getValue()
 {
     return z;
 }
 
-Trigger::isDown()
+bool Trigger::isDown()
 {
     return z < threshold;
 }
 
-Trigger::setThreshold(float threshold)
+void Trigger::setThreshold(float threshold)
 {
+    //add error checking
     threshold = threshold;
 }

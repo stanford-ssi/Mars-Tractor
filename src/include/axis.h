@@ -1,7 +1,8 @@
-#ifndef axis_Included
-#define axis_Included
+#ifndef _axis_Included
+#define _axis_Included
 
-//#include <stdlib>
+#include <cstdlib>
+#include "point.h"
 
 class Axis
 {
@@ -14,6 +15,8 @@ class Axis
     private:
         float x, y;
         float deadzone = 0;
+        void setX(float x);
+        void setY(float y);
 };
 
 #endif

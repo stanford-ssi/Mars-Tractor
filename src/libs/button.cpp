@@ -5,12 +5,12 @@ Button::Button()
 
 }
 
-Button::getState()
+bool Button::getState()
 {
     return isDown;
 }
 
-Button::whenPressed(int function)
+void Button::whenPressed(int function)
 {
     //do something
 }

@@ -1,4 +1,4 @@
-#include <axis.h>
+#include "axis.h"
 
 Axis::Axis(float x, float y)
 {
@@ -6,9 +6,11 @@ Axis::Axis(float x, float y)
     y = y;
 }
 
+
+
 float Axis::getX() 
 {
-    if (x < deadzone) 
+    if (std::abs(x) < deadzone) 
     {
         return 0;
     }
@@ -20,7 +22,7 @@ float Axis::getX()
 
 float Axis::getY() 
 {
-    if (x < deadzone) 
+    if (std::abs(y) < deadzone) 
     {
         return 0;
     }

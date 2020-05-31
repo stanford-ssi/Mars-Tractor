@@ -1,5 +1,5 @@
-#ifndef camera_Included
-#define camera_Included
+#ifndef _camera_Included
+#define _camera_Included
 
 #include <opencv2/opencv.hpp>
 
