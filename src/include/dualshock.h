@@ -31,12 +31,12 @@ class Gamepad
         /**
          * Returns gamepad button with provided name.
         */
-        Button getButton(string name);
+        Button getButton(int name);
 
         /**
          * Returns gamepad button state with provided name.
         */
-        bool getButtonState(string name);
+        bool getButtonState(int name);
 
         /**
          * Returns gamepad trigger with provided id.
@@ -61,11 +61,11 @@ class Gamepad
         /**
          * Returns values of gamepad axis with provided id.
         */
-        Point<float x, float y> getAxisState(int id);
+        //Point<float x, float y> getAxisState(int id);
 
     private:
         int id;
-        const unordered_map<string, Button> buttons;
+        //const unordered_map<string, Button> buttons;
         bool isPolling = false;
 };
 

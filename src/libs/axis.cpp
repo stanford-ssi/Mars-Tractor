@@ -8,7 +8,7 @@ Axis::Axis(float x, float y)
 
 float Axis::getX() 
 {
-    if (std::abs(x) < deadzone) 
+    if (x < deadzone) 
     {
         return 0;
     }
@@ -20,7 +20,7 @@ float Axis::getX()
 
 float Axis::getY() 
 {
-    if (std::abs(y) < deadzone) 
+    if (x < deadzone) 
     {
         return 0;
     }

@@ -8,7 +8,7 @@ class Trigger
         Trigger(float threshold);
         float getValue();
         bool isDown();
-        setThreshold(float threshold);
+        //setThreshold(float threshold);
     private:
         float z;
         float threshold = .75;

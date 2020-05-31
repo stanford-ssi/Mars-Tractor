@@ -6,7 +6,7 @@
 // Namespace for camera functions
 namespace cf
 
-int[6] locateTarget(const Mat &src);
+//int[6] locateTarget(const Mat &src);
 
 
 
