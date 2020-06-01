@@ -1,5 +1,5 @@
-#ifndef touchpad_Included
-#define touchpad_Included
+#ifndef _touchpad_Included
+#define _touchpad_Included
 
 class TouchPad
 {

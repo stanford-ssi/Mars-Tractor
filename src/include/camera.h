@@ -5,8 +5,10 @@
 
 // Namespace for camera functions
 namespace cf
+{
+    int getPoints();
+}
 
-//int[6] locateTarget(const Mat &src);
 
 
 

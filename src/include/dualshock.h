@@ -26,7 +26,7 @@ class Gamepad
         /**
           * Begins thread that continously reads from /dev/js0 to update gamepad values and 
         */
-        void startPolling();
+        void startPolling(int pollingRate);
 
         /**
          * Returns gamepad button with provided name.

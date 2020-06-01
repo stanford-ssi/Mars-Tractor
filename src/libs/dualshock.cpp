@@ -12,7 +12,7 @@ Gamepad::~Gamepad()
     //stop polling from happening
 }
 
-void Gamepad::startPolling()
+void Gamepad::startPolling(int pollingRate)
 {
     //error checking in case the controller is not connected and the coder tries to begin polling
     isPolling = true;
