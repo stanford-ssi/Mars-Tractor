@@ -7,8 +7,6 @@
 class Trigger
 {
     public:
-        Trigger(int id);
-        Trigger(int id, float threshold);
         float getValue();
         void setValue(float z);
         bool isDown();

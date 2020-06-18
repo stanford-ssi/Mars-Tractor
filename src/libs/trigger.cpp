@@ -1,16 +1,10 @@
 #include "trigger.h"
-
-Trigger::Trigger(int id)
+/*
+Trigger::Trigger(float threshold)
 {
-    id = id;
-}
-
-Trigger::Trigger(int id, float threshold)
-{
-    id = id;
     threshold = threshold;
 }
-
+*/
 
 float Trigger::getValue()
 {
@@ -19,13 +13,13 @@ float Trigger::getValue()
 
 void Trigger::setValue(float z)
 {
-    if (std::abs(z) > 1)
+    if (z < 0 || z > 1)
     {
         std::cerr << "Invalid argument value z: " << z << std::endl;
         throw std::invalid_argument("Trigger value can only be set from -1 to 1.");
     }
 
-    z = z;
+    this->z = z;
 }
 
 bool Trigger::isDown() //I do not know if it is the other way around
@@ -42,11 +36,11 @@ float Trigger::getThreshold()
 
 void Trigger::setThreshold(float threshold)
 {
-    if (std::abs(threshold) > 1)
+    if (threshold < 0 || threshold > 1)
     {
         std::cerr << "Invalid argument value threshold: " << threshold << std::endl;
         throw std::invalid_argument("Threshold value can only be set from -1 to 1.");
     }
         
-    threshold = threshold;
+    this->threshold = threshold;
 }

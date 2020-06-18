@@ -1,16 +1,11 @@
 #include "button.h"
 
-Button::Button()
-{
-
-}
-
 bool Button::getState()
 {
-    return isDown;
+    return this->isDown;
 }
 
-void Button::whenPressed(int function)
+void Button::setState(bool state)
 {
-    //do something
+    this->isDown = state;
 }

@@ -21,8 +21,6 @@
 class Axis
 {
     public:
-        Axis(int id);
-        Axis(int id, float deadzone);
         cv::Point2f getState();
         void setState(float x, float y);
         float getX();
@@ -32,7 +30,6 @@ class Axis
         int getDeadzone();
         void setDeadzone(float deadzone);
     private:
-        int id;
         float x, y;
         float deadzone = 0;
 };

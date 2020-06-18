@@ -1,14 +1,19 @@
+/*
+ * File: button.h
+ * -------------
+ * This file defines an button class for interacting with dualshock buttons.
+ */
+
 #ifndef _button_Included
 #define _button_Included
 
 class Button
 {
     public:
-        Button();
         bool getState();
-        void whenPressed(int function);
+        void setState(bool state);
     private:
-        bool isDown;
+        bool isDown = false;
 };
 
 #endif

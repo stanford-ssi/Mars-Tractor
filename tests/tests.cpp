@@ -1,10 +1,22 @@
 #include <gtest/gtest.h>
 #include "point.h"
+#include "button.h"
+#include "axis.h"
 
-TEST(gtest, Check)
+TEST(gtest, button)
 {
-    ASSERT_EQ(1, 1);
-    ASSERT_EQ(1, 2);
+    Button button = Button();
+    ASSERT_FALSE(button.getState());
+    button.setState(true);
+    ASSERT_TRUE(button.getState());
+}
+TEST(gtest2, axis)
+{
+    Axis axis = Axis();
+    axis.setX(.4);
+    axis.setY(-1);
+    ASSERT_EQ(axis.getX(), (float).4);
+    ASSERT_EQ(axis.getY(), -1);
 }
 
 int main(int argc, char **argv)

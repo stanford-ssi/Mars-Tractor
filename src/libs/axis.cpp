@@ -1,16 +1,5 @@
 #include "axis.h"
 
-Axis::Axis(int id)
-{
-    id = id;
-}
-
-Axis::Axis(int id, float deadzone)
-{
-    id = id;
-    deadzone = deadzone;
-}
-
 cv::Point2f Axis::getState()
 {
     cv::Point2f result = cv::Point2f(x, y);
@@ -34,8 +23,8 @@ void Axis::setState(float x, float y)
         throw std::invalid_argument("Axis values can only be set from -1 to 1.");
     }
 
-    x = x;
-    y = y;
+    this->x = x;
+    this->y = y;
 }
 
 float Axis::getX() 
@@ -70,7 +59,7 @@ void Axis::setX(float x)
         throw std::invalid_argument("Axis values can only be set from -1 to 1.");
     }
 
-    x = x;
+    this->x = x;
 }
 
 void Axis::setY(float y) 
@@ -81,7 +70,7 @@ void Axis::setY(float y)
         throw std::invalid_argument("Axis values can only be set from -1 to 1.");
     }
     
-    y = y;
+    this->y = y;
 }
 
 int Axis::getDeadzone()
