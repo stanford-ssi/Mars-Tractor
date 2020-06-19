@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include "point.h"
 #include "button.h"
 #include "axis.h"
 

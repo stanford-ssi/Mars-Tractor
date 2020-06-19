@@ -31,7 +31,7 @@ class Axis
         void setDeadzone(float deadzone);
     private:
         float x, y;
-        float deadzone = 0;
+        float deadzone = 0.2;
 };
 
 #endif
