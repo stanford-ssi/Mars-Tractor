@@ -1,6 +1,13 @@
 # the minimum version of CMake required
 cmake_minimum_required(VERSION 3.8)
 
+#Set an environmental variable that locates file vcpkg.cmake found somewhere in vcpkg root
+if(NOT DEFINED ENV{VCPKG})
+    message(STATUS "VCPKG environment variable is undefined")
+endif()
+message("vcpkg.cmake filepath: " $ENV{VCPKG})
+set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG})
+
 #Uncomment these when running on linux target
 #file(GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h)
 #file(GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h)
