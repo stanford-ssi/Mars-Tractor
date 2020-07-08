@@ -9,7 +9,4 @@ namespace cf
     int getPoints();
 }
 
-
-
-
 #endif
