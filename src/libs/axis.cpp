@@ -73,7 +73,7 @@ void Axis::setY(float y)
     this->y = y;
 }
 
-int Axis::getDeadzone()
+float Axis::getDeadzone()
 {
     return deadzone;
 }

@@ -27,7 +27,7 @@ class Axis
         float getY();
         void setX(float x);
         void setY(float y);
-        int getDeadzone();
+        float getDeadzone();
         void setDeadzone(float deadzone);
     private:
         float x, y;

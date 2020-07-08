@@ -63,7 +63,7 @@ void capture(int camera, int frameRate) {
 
 	while (cap.read(frame)) {
 		if (frame.empty()) {
-			cout << "Make this an error in the future. Empty Frame." << endl;
+			cerr << "Empty Frame." << endl;
 		}
 		Mat outline = rename(frame);
 		Mat outline2;

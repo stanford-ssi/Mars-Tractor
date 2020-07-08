@@ -1,31 +1,44 @@
 # the minimum version of CMake required
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.8)
 
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXXFLAGES "${CMAKE_CXX_FLAGES} -std = c++14")
+#Set an environmental variable that locates file vcpkg.cmake found somewhere in vcpkg root
+if(NOT DEFINED ENV{VCPKG})
+    message(STATUS "VCPKG environment variable is undefined")
+endif()
+message("vcpkg.cmake filepath: " $ENV{VCPKG})
+set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG})
 
-#project
-project(tractor)
+#Uncomment these when running on linux target
+#file(GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h)
+#file(GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h)
 
-#testing
+#Uncomment these when running on non-linux target
+file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/camera.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/camera.h )
+file( GLOB TESTFILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/camera.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/camera.h )
+
+# Create Project
+project( tractor )
+add_executable( main ${SRCFILES} )
+add_executable( tests ${TESTFILES} )
+
 enable_testing()
 
-#set(SOURCES src/"*.cpp" src/include/*.h)
-file(GLOB SRCFILES src/main.cpp src/libs/*.cpp src/include*.h)
-file(GLOB TESTFILES tests/tests.cpp src/libs/*.cpp src/include*.h)
+# Find Package
+find_package( OpenCV CONFIG REQUIRED )
+find_package( GTest CONFIG REQUIRED )
 
-#packages
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+include_directories( ${GTest_INCLUDE_DIRS})
 
-add_executable(tractor ${SRCFILES})
-add_executable(tests ${TESTFILES})
+# Additional Library Directories
+link_directories( ${OpenCV_LIB_DIR} )
+link_directories( ${GTest_LIB_DIR} )
 
-target_link_libraries( tractor Threads::Threads)
-target_link_libraries( tractor ${OpenCV_LIBS})
-target_link_libraries( tests ${GTEST_LIBRARIES} pthread)
-target_include_directories(tractor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
-target_include_directories(tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
+# Additional Dependencies
+target_link_libraries( main ${OpenCV_LIBS} )
+target_link_libraries( tests PRIVATE ${OpenCV_LIBS} GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main )
+
+add_test( AllTestsInMain main )
+
+target_include_directories( main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include )
+target_include_directories( tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include )
