@@ -1,12 +1,11 @@
 # the minimum version of CMake required
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required( VERSION 3.8 )
 
 #Set an environmental variable that locates file vcpkg.cmake found somewhere in vcpkg root
-if(NOT DEFINED ENV{VCPKG})
-    message(STATUS "VCPKG environment variable is undefined")
+if( NOT DEFINED ENV{VCPKG} )
+    message( STATUS "VCPKG environment variable is undefined" )
 endif()
-message("vcpkg.cmake filepath: " $ENV{VCPKG})
-set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG})
+set( CMAKE_TOOLCHAIN_FILE $ENV{VCPKG} )
 
 #Uncomment these when running on linux target
 #file(GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h)
@@ -31,12 +30,12 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 include_directories( ${GTest_INCLUDE_DIRS})
 
 # Additional Library Directories
-link_directories( ${OpenCV_LIB_DIR} )
+link_directories( ${OpenCV_LIB_DIR} opencv_contrib)
 link_directories( ${GTest_LIB_DIR} )
 
 # Additional Dependencies
-target_link_libraries( main ${OpenCV_LIBS} )
-target_link_libraries( tests PRIVATE ${OpenCV_LIBS} GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main )
+target_link_libraries( main ${OpenCV_LIBS} opencv_contrib)
+target_link_libraries( tests PRIVATE ${OpenCV_LIBS} opencv_contrib GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main )
 
 add_test( AllTestsInMain main )
 

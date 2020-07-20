@@ -27,9 +27,9 @@ void Axis::setState(float x, float y)
     this->y = y;
 }
 
-float Axis::getX() 
+float Axis::getX()
 {
-    if (std::abs(x) < deadzone) 
+    if (std::abs(x) < deadzone)
     {
         return 0;
     }
@@ -39,9 +39,9 @@ float Axis::getX()
     }
 }
 
-float Axis::getY() 
+float Axis::getY()
 {
-    if (std::abs(y) < deadzone) 
+    if (std::abs(y) < deadzone)
     {
         return 0;
     }
@@ -62,21 +62,18 @@ void Axis::setX(float x)
     this->x = x;
 }
 
-void Axis::setY(float y) 
+void Axis::setY(float y)
 {
     if (std::abs(y) > 1)
     {
         std::cerr << "Invalid argument value y: " << y << std::endl;
         throw std::invalid_argument("Axis values can only be set from -1 to 1.");
     }
-    
+
     this->y = y;
 }
 
-float Axis::getDeadzone()
-{
-    return deadzone;
-}
+float Axis::getDeadzone() { return deadzone; }
 
 void setDeadzone(float deadzone)
 {
@@ -85,6 +82,6 @@ void setDeadzone(float deadzone)
         std::cerr << "Invalid argument value deadzone: " << deadzone << std::endl;
         throw std::invalid_argument("Deadzone value can only be set from 0 to 1.");
     }
-    
+
     deadzone = deadzone;
 }

@@ -1,10 +1,11 @@
 #include "dualshock.h"
 
-Dualshock::Dualshock(const std::string& joystickPath, const std::string& touchpadPath, const std::string& motionPath)//TODO: Check if parameters leak memory.
+Dualshock::Dualshock(const std::string &joystickPath, const std::string &touchpadPath,
+                     const std::string &motionPath)    // TODO: Check if parameters leak memory.
 {
-    const char* jsPath = joystickPath.c_str();
-    const char* tpPath = touchpadPath.c_str();
-    const char* moPath = motionPath.c_str();
+    const char *jsPath = joystickPath.c_str();
+    const char *tpPath = touchpadPath.c_str();
+    const char *moPath = motionPath.c_str();
 
     this->jfd = open(jsPath, O_RDWR | O_NONBLOCK);
     this->tfd = open(tpPath, O_RDONLY | O_NONBLOCK);
@@ -25,7 +26,7 @@ Dualshock::Dualshock(const std::string& joystickPath, const std::string& touchpa
         throw std::invalid_argument("Invalid motionPath. Check for typos or check file "
                                     "permissions");
     }
-    
+
     generateMaps();
     saveRumble();
 }
@@ -37,16 +38,16 @@ Dualshock::Dualshock()
     int numPaths = 0;
 
     char name[256] = "Unknown";
-    
+
     while (fd != -1)
     {
-        ioctl(fd, EVIOCGNAME (sizeof (name)), name);
+        ioctl(fd, EVIOCGNAME(sizeof(name)), name);
 
-        //is it the one im lookin for
+        // is it the one im lookin for
         if (this->isPath(name, fd))
         {
             numPaths++;
-            if (numPaths == 3) 
+            if (numPaths == 3)
             {
                 generateMaps();
                 saveRumble();
@@ -57,8 +58,8 @@ Dualshock::Dualshock()
         {
             close(fd);
         }
-        
-        //get next path
+
+        // get next path
         std::string path = "/dev/input/event";
         num++;
         path = path + std::to_string(num);
@@ -72,12 +73,12 @@ Dualshock::Dualshock()
 
 bool Dualshock::isPath(char name[256], int fd)
 {
-  
+
     std::string str = name;
     std::string tpName = "Wireless Controller Touchpad";
     std::string jsName = "Wireless Controller";
     std::string moName = "Wireless Controller Motion Sensors";
-    
+
     if (str == jsName)
     {
         jfd = fd;
@@ -99,7 +100,7 @@ bool Dualshock::isPath(char name[256], int fd)
 
 Dualshock::~Dualshock()
 {
-    //this->isPolling = false;
+    // this->isPolling = false;
     freeRumble();
     this->stopPolling();
     close(jfd);
@@ -108,7 +109,7 @@ Dualshock::~Dualshock()
 
 void Dualshock::startPolling()
 {
-    //error checking in case the controller is not connected and the coder tries to begin polling
+    // error checking in case the controller is not connected and the coder tries to begin polling
     this->isPolling = true;
     this->jsThread = std::thread(&Dualshock::readJoystick, this);
     this->moThread = std::thread(&Dualshock::readMotion, this);
@@ -117,26 +118,26 @@ void Dualshock::startPolling()
 void Dualshock::stopPolling()
 {
     this->isPolling = false;
-    if(this->jsThread.joinable()) this->jsThread.join();
-    if(this->moThread.joinable()) this->moThread.join();
-    //this->jsThread.join();
+    if (this->jsThread.joinable()) this->jsThread.join();
+    if (this->moThread.joinable()) this->moThread.join();
+    // this->jsThread.join();
 }
 void Dualshock::writeMotion(std::string id, std::string code, int value)
 {
     char type = code[code.length() - 1];
     switch (type)
     {
-        case('X'):
-            motions[id].setX(value);
-            break;
-        case('Y'):
-            motions[id].setY(value);
-            break;
-        case('Z'):
-            motions[id].setZ(value);
-            break;
-        default:
-            break;
+    case ('X'):
+        motions[id].setX(value);
+        break;
+    case ('Y'):
+        motions[id].setY(value);
+        break;
+    case ('Z'):
+        motions[id].setZ(value);
+        break;
+    default:
+        break;
     }
 }
 
@@ -145,7 +146,6 @@ void Dualshock::readMotion()
     input_event mo;
     int maxL = 32768;
     int maxR = 2097152;
-
 
     while (this->isPolling)
     {
@@ -156,21 +156,21 @@ void Dualshock::readMotion()
 
         switch (mo.type)
         {
-            case EV_ABS:
+        case EV_ABS:
+        {
+            if (id.length() == 1)    // left
             {
-                if (id.length() == 1) //left
-                {
-                    int value = 180 * (mo.value + maxL) / maxL; //sets value to degrees
-                    writeMotion("A", id, value);
-                }
-                else //right
-                {
-                    int value = 180 * (mo.value + maxR) / (maxR);
-                    writeMotion("B", id, value);
-                }
+                int value = 180 * (mo.value + maxL) / maxL;    // sets value to degrees
+                writeMotion("A", id, value);
             }
-            default:
-                break;
+            else    // right
+            {
+                int value = 180 * (mo.value + maxR) / (maxR);
+                writeMotion("B", id, value);
+            }
+        }
+        default:
+            break;
         }
         this->printOut();
     }
@@ -182,7 +182,7 @@ void Dualshock::readTouchpad()
 
     size_t tpBytes;
     tpBytes = read(tfd, tp, sizeof(*tp));
-    
+
     if (tpBytes == sizeof(*tp))
     {
         //updatevalues
@@ -202,28 +202,28 @@ void Dualshock::readJoystick()
 
         switch (js.type)
         {
-            case EV_KEY:
-            {
-                buttons[id].setState(js.value);
-                break;
-            }
-            case EV_ABS:
-            {
-                char type = id[id.length() - 1];
-                id = id.substr(0, id.length() - 1);
-                if (id[0] == 'D') // if the event is a dpad
-                {
-                    writeDPAD(type, js.value);
-                }
-                else //the event is a genuine axis
-                {
-                    writeAxes(id, type, js.value);
-                }  
-            }
-            default:
-                break;
+        case EV_KEY:
+        {
+            buttons[id].setState(js.value);
+            break;
         }
-        //this->printOut();
+        case EV_ABS:
+        {
+            char type = id[id.length() - 1];
+            id = id.substr(0, id.length() - 1);
+            if (id[0] == 'D')    // if the event is a dpad
+            {
+                writeDPAD(type, js.value);
+            }
+            else    // the event is a genuine axis
+            {
+                writeAxes(id, type, js.value);
+            }
+        }
+        default:
+            break;
+        }
+        // this->printOut();
     }
 }
 
@@ -239,54 +239,54 @@ void Dualshock::writeDPAD(char type, int value)
     }
     else
     {
-        value = -value; //inverted for you
+        value = -value;    // inverted for you
         direction1 = "UP";
         direction2 = "DOWN";
     }
 
     switch (value)
     {
-        case 1:
-            buttons[direction1].setState(true);
-            buttons[direction2].setState(false);
-            break;
-        case 0:
-            buttons[direction1].setState(false);
-            buttons[direction2].setState(false);
-            break;
-        case -1:
-            buttons[direction1].setState(false);
-            buttons[direction2].setState(true);
-            break;
-        default:
-            break;
+    case 1:
+        buttons[direction1].setState(true);
+        buttons[direction2].setState(false);
+        break;
+    case 0:
+        buttons[direction1].setState(false);
+        buttons[direction2].setState(false);
+        break;
+    case -1:
+        buttons[direction1].setState(false);
+        buttons[direction2].setState(true);
+        break;
+    default:
+        break;
     }
 }
 
-void Dualshock::writeAxes(const std::string& id, char type, float value)
+void Dualshock::writeAxes(const std::string &id, char type, float value)
 {
     float triggerValue = (float)value / (float)255;
-    float axisValue = ((float)value - (float)127.5)/ (float)127.5; //makes it from -1 to 1
+    float axisValue = ((float)value - (float)127.5) / (float)127.5;    // makes it from -1 to 1
 
-    switch (type) 
+    switch (type)
     {
-        case 'X':
-            axes[id].setX(axisValue);    
-            break;
-        case 'Y':
-            axes[id].setY(-axisValue);
-            break;
-        case 'Z':
-            triggers[id].setValue(triggerValue);
-            break;
-        default:
-            break;
+    case 'X':
+        axes[id].setX(axisValue);
+        break;
+    case 'Y':
+        axes[id].setY(-axisValue);
+        break;
+    case 'Z':
+        triggers[id].setValue(triggerValue);
+        break;
+    default:
+        break;
     }
 }
 
 void Dualshock::generateMaps()
 {
-    //create button unorderedmap
+    // create button unorderedmap
     for (int i = 0; i < buttonNames.size(); i++)
     {
         Button button = Button();
@@ -311,7 +311,7 @@ void Dualshock::generateMaps()
     }
 }
 
-Button Dualshock::getButton(const std::string& id)
+Button Dualshock::getButton(const std::string &id)
 {
     if (!buttons.count(id))
     {
@@ -320,7 +320,7 @@ Button Dualshock::getButton(const std::string& id)
     return buttons[id];
 }
 
-bool Dualshock::getButtonState(const std::string& id)
+bool Dualshock::getButtonState(const std::string &id)
 {
     if (!buttons.count(id))
     {
@@ -330,7 +330,7 @@ bool Dualshock::getButtonState(const std::string& id)
     return button.getState();
 }
 
-Motion Dualshock::getMotion(const std::string& id)
+Motion Dualshock::getMotion(const std::string &id)
 {
     if (!motions.count(id))
     {
@@ -363,13 +363,16 @@ void Dualshock::printOut()
     {
         std::string name = motionNames[i];
         Motion state = Dualshock::getMotion(name);
-        std::cout << name << " : " << state.getX() << ", " << state.getY() << ", " << state.getZ() << " | ";
+        std::cout << name << " : " << state.getX() << ", " << state.getY() << ", " << state.getZ()
+                  << " | ";
     }
     std::cout << std::endl;
-    std::cout << "----------------------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "---------------------------------------------------------------------------------"
+                 "-------------------------"
+              << std::endl;
 }
 
-Axis Dualshock::getAxis(const std::string& id)
+Axis Dualshock::getAxis(const std::string &id)
 {
     if (!axes.count(id))
     {
@@ -379,7 +382,7 @@ Axis Dualshock::getAxis(const std::string& id)
     return axis;
 }
 
-Trigger Dualshock::getTrigger(const std::string& id)
+Trigger Dualshock::getTrigger(const std::string &id)
 {
     if (!triggers.count(id))
     {
@@ -389,7 +392,7 @@ Trigger Dualshock::getTrigger(const std::string& id)
     return trigger;
 }
 
-float Dualshock::getTriggerValue(const std::string& id)
+float Dualshock::getTriggerValue(const std::string &id)
 {
     if (!triggers.count(id))
     {
@@ -399,14 +402,14 @@ float Dualshock::getTriggerValue(const std::string& id)
 }
 
 void Dualshock::rumble(int duration)
-{    
+{
     input_event play;
     input_event stop;
-	play.type = EV_FF;
-	play.code = this->effect.id;
-	play.value = 1;
+    play.type = EV_FF;
+    play.code = this->effect.id;
+    play.value = 1;
 
-    write(jfd, (const void*)&play, sizeof(play));
+    write(jfd, (const void *)&play, sizeof(play));
 
     sleep(duration);
 
@@ -421,29 +424,28 @@ void Dualshock::rumble(int duration)
 void Dualshock::saveRumble()
 {
     this->effect.type = FF_PERIODIC;
-	this->effect.id = -1;
-	this->effect.u.periodic.waveform = FF_SINE;
-	this->effect.u.periodic.period = 1000;	/* 0.1 second */
-	this->effect.u.periodic.magnitude = 0x7fff;	/* 0.5 * Maximum magnitude */
-	this->effect.u.periodic.offset = 0;
-	this->effect.u.periodic.phase = 0;
-	this->effect.direction = 0x4000;	/* Along X axis */
-	this->effect.u.periodic.envelope.attack_length = 1000;
-	this->effect.u.periodic.envelope.attack_level = 0x7fff;
-	this->effect.u.periodic.envelope.fade_length = 1000;
-	this->effect.u.periodic.envelope.fade_level = 0x7fff;
-	this->effect.trigger.button = 0;
-	this->effect.trigger.interval = 0;
-	this->effect.replay.length = 20000;  /* 20 seconds */
-	this->effect.replay.delay = 1000;
+    this->effect.id = -1;
+    this->effect.u.periodic.waveform = FF_SINE;
+    this->effect.u.periodic.period = 1000;      /* 0.1 second */
+    this->effect.u.periodic.magnitude = 0x7fff; /* 0.5 * Maximum magnitude */
+    this->effect.u.periodic.offset = 0;
+    this->effect.u.periodic.phase = 0;
+    this->effect.direction = 0x4000; /* Along X axis */
+    this->effect.u.periodic.envelope.attack_length = 1000;
+    this->effect.u.periodic.envelope.attack_level = 0x7fff;
+    this->effect.u.periodic.envelope.fade_length = 1000;
+    this->effect.u.periodic.envelope.fade_level = 0x7fff;
+    this->effect.trigger.button = 0;
+    this->effect.trigger.interval = 0;
+    this->effect.replay.length = 20000; /* 20 seconds */
+    this->effect.replay.delay = 1000;
 
     int check = ioctl(jfd, EVIOCSFF, &this->effect);
-    std::cout << check << "|"<< this->effect.id <<std::endl;
+    std::cout << check << "|" << this->effect.id << std::endl;
 }
 
 void Dualshock::freeRumble()
 {
     int check = ioctl(jfd, EVIOCRMFF, this->effect.id);
-    std::cout << check <<std::endl;
+    std::cout << check << std::endl;
 }
-
