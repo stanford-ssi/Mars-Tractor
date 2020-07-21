@@ -25,17 +25,18 @@ enable_testing()
 # Find Package
 find_package( OpenCV CONFIG REQUIRED )
 find_package( GTest CONFIG REQUIRED )
+find_package( jsoncpp CONFIG REQUIRED ) 
 
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-include_directories( ${GTest_INCLUDE_DIRS})
+include_directories( ${GTest_INCLUDE_DIRS} )
 
 # Additional Library Directories
-link_directories( ${OpenCV_LIB_DIR} opencv_contrib)
+link_directories( ${OpenCV_LIB_DIR} )
 link_directories( ${GTest_LIB_DIR} )
 
 # Additional Dependencies
-target_link_libraries( main ${OpenCV_LIBS} opencv_contrib)
-target_link_libraries( tests PRIVATE ${OpenCV_LIBS} opencv_contrib GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main )
+target_link_libraries( main ${OpenCV_LIBS} opencv_aruco jsoncpp_lib)
+target_link_libraries( tests PRIVATE ${OpenCV_LIBS} opencv_aruco jsoncpp_lib GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main )
 
 add_test( AllTestsInMain main )
 

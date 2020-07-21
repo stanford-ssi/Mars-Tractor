@@ -39,3 +39,70 @@ int cf::position(std::vector<std::vector<cv::Point>> targets[3])
     }
     return 0;
 }
+
+int cf::video()
+{
+    cv::Mat frame;
+    std::vector<int> markerIds;
+
+    std::vector<std::vector<cv::Point2f>> markerCorners, rejects;
+    cv::aruco::DetectorParameters parameters;
+
+    cv::Ptr<cv::aruco::Dictionary> markerDictionary =
+        cv::aruco::getPredefinedDictionary(cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_4X4_50);
+
+    cv::VideoCapture cap(0);
+    cap.open(0, cv::CAP_ANY);
+
+    if (!cap.isOpened())
+    {
+        std::cerr << "Camera cannot be found." << std::endl;
+        return -1;
+    }
+    cv::namedWindow("Camera", cv::WINDOW_AUTOSIZE);
+
+    std::vector<cv::Vec3d> rotationVectors, translationVectors;
+
+    while (cap.read(frame) && !frame.empty())
+    {
+        cv::aruco::detectMarkers(frame, markerDictionary, markerCorners, markerIds);
+        cv::aruco::estimatePoseSingleMarkers(markerCorners, 0,
+                                             cf::CAMERA_MATRIX_C920, cf::DISTORTION_COEFFS_C920,
+                                             rotationVectors, translationVectors);
+        for (int i = 0; i < markerIds.size(); i++)
+        {
+            cv::aruco::drawAxis(frame, cf::CAMERA_MATRIX_C920, cf::DISTORTION_COEFFS_C920,
+                                rotationVectors, translationVectors, 0.1f);
+        }
+        cv::imshow("Camera", frame);
+        if (cv::waitKey(30) >= 0) break;
+    }
+
+    return 0;
+}
+
+void cf::createArucoMarkers()
+{
+    cv::Mat outputMarker;
+
+    cv::Ptr<cv::aruco::Dictionary> markerDictionary =
+        cv::aruco::getPredefinedDictionary(cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_4X4_50);
+
+    for (int i = 0; i < 50; i++)
+    {
+        std::string filename = "assets/markers/marker" + std::to_string(i) + ".jpg";
+        cv::aruco::drawMarker(markerDictionary, i, 500, outputMarker, 1);
+        cv::imwrite(filename, outputMarker);
+    }
+}
+
+bool cf::loadCameraCalibration(std::string filename, cv::Mat& cameraMatrix, cv::Mat& distortionCoefficients)
+{
+    std::ifstream inStream(filename);
+    inStream >> calib;
+    if (inStream)
+    {
+        uin16_t rows;
+        uint16_t columns;
+    }
+}
