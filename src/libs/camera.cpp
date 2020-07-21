@@ -31,15 +31,6 @@ void cf::displayImage(const cv::Mat &img, int delay)
     cv::waitKey(delay * 1000);
 }
 
-int cf::position(std::vector<std::vector<cv::Point>> targets[3])
-{
-    for (int i = 0; i < 3; i++)
-    {
-        targets[i];
-    }
-    return 0;
-}
-
 int cf::capture(const cv::Mat &cameraMatrix, const cv::Mat &distortionCoefficients,
                 float markerDimensions)
 {
@@ -53,7 +44,6 @@ int cf::capture(const cv::Mat &cameraMatrix, const cv::Mat &distortionCoefficien
         cv::aruco::getPredefinedDictionary(cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_4X4_50);
 
     cv::VideoCapture cap(0);
-    cap.open(0, cv::CAP_ANY);
 
     if (!cap.isOpened())
     {
@@ -107,7 +97,7 @@ void cf::createArucoMarkers()
     }
 }
 
-bool cf::loadCameraCalibration(std::string filename, cv::Mat &cameraMatrix,
+bool cf::loadCameraCalibration(const std::string& filename, cv::Mat &cameraMatrix,
                                cv::Mat &distortionCoefficients)
 {
     std::ifstream inStream(filename);

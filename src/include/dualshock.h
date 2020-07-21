@@ -28,7 +28,7 @@ public:
                     // having a thread in the class
 
     /**
-     * Creates instance of duslshock. If dualshock controller cannot be found, returns false.
+     * Creates instance of dualshock. If dualshock controller cannot be found, returns false.
      * Parameter values are usually "/dev/input/jsX" and "/dev/input/eventX" where X is a
      * number.
      */
