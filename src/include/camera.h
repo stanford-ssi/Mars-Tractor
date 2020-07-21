@@ -6,7 +6,8 @@
 #include <opencv2/aruco.hpp>
 #include <cmath>
 #include <vector>
-#include <json/value.h>
+#include <json/json.h>
+#include <fstream>
 
 // Namespace for camera functions
 namespace cf
@@ -14,20 +15,13 @@ namespace cf
     /**
      * Camera Constants
      */
-    const cv::Mat CAMERA_MATRIX_C920;
-    const cv::Mat DISTORTION_COEFFS_C920;
-    //const float MARKER_DIMENSION;
+    const float MARKER_DIMENSION = .05f; //Square side length of marker in meters
 
     void createArucoMarkers();
-    bool loadCameraCalibration(std::string filename, cv::Mat& cameraMatrix, cv::Mat& distortionCoefficients);)
+    bool loadCameraCalibration(std::string filename, cv::Mat& cameraMatrix, cv::Mat& distortionCoefficients);
     void locateTarget(const cv::Mat &src, cv::Mat &dst);
     void displayImage(const cv::Mat &img, int delay);
-    int video();
-    struct Position
-    {
-        int x, y, z;
-        int row, theta, psi;
-    };
+    int capture(const cv::Mat& cameraMatrix, const cv::Mat& distortionCoefficients, float markerDimensions);
 
     int position(std::vector<std::vector<cv::Point>> targets[3]);
 }    // namespace cf

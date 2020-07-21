@@ -40,10 +40,11 @@ int cf::position(std::vector<std::vector<cv::Point>> targets[3])
     return 0;
 }
 
-int cf::video()
+int cf::capture(const cv::Mat &cameraMatrix, const cv::Mat &distortionCoefficients,
+                float markerDimensions)
 {
     cv::Mat frame;
-    std::vector<int> markerIds;
+    std::vector<int> markerIds = {7};
 
     std::vector<std::vector<cv::Point2f>> markerCorners, rejects;
     cv::aruco::DetectorParameters parameters;
@@ -63,20 +64,30 @@ int cf::video()
 
     std::vector<cv::Vec3d> rotationVectors, translationVectors;
 
-    while (cap.read(frame) && !frame.empty())
+    bool isRead = cap.read(frame);
+    if (!isRead) std::cerr << "Camera cannot be read." << std::endl;
+
+    while (1)
     {
+        // Capture frame-by-frame
+        isRead = cap.read(frame);
+        if (!isRead) break;
+
         cv::aruco::detectMarkers(frame, markerDictionary, markerCorners, markerIds);
-        cv::aruco::estimatePoseSingleMarkers(markerCorners, 0,
-                                             cf::CAMERA_MATRIX_C920, cf::DISTORTION_COEFFS_C920,
-                                             rotationVectors, translationVectors);
+        cv::aruco::estimatePoseSingleMarkers(markerCorners, markerDimensions, cameraMatrix,
+                                             distortionCoefficients, rotationVectors,
+                                             translationVectors);
         for (int i = 0; i < markerIds.size(); i++)
         {
-            cv::aruco::drawAxis(frame, cf::CAMERA_MATRIX_C920, cf::DISTORTION_COEFFS_C920,
-                                rotationVectors, translationVectors, 0.1f);
+            cv::aruco::drawAxis(frame, cameraMatrix, distortionCoefficients, rotationVectors[i],
+                                translationVectors[i], 0.1f);
         }
         cv::imshow("Camera", frame);
         if (cv::waitKey(30) >= 0) break;
     }
+
+    cap.release();
+    cv::destroyAllWindows();
 
     return 0;
 }
@@ -96,13 +107,33 @@ void cf::createArucoMarkers()
     }
 }
 
-bool cf::loadCameraCalibration(std::string filename, cv::Mat& cameraMatrix, cv::Mat& distortionCoefficients)
+bool cf::loadCameraCalibration(std::string filename, cv::Mat &cameraMatrix,
+                               cv::Mat &distortionCoefficients)
 {
     std::ifstream inStream(filename);
+    if (!inStream.is_open()) return false;
+
+    Json::Value calib;
     inStream >> calib;
-    if (inStream)
+
+    cameraMatrix = cv::Mat(cv::Size(3, 3), CV_64F);
+    distortionCoefficients = cv::Mat::zeros(cv::Size(5, 1), CV_64F);
+
+    for (int i = 0; i < cameraMatrix.rows; i++)
     {
-        uin16_t rows;
-        uint16_t columns;
+        for (int j = 0; j < cameraMatrix.cols; j++)
+        {
+            double value = calib["cameraMatrix"][3 * i + j].asDouble();
+            cameraMatrix.at<double>(i, j) = value;
+        }
     }
+
+    for (int i = 0; i < distortionCoefficients.cols; i++)
+    {
+        double value = calib["distortionCoefficients"][i].asDouble();
+        distortionCoefficients.at<double>(distortionCoefficients.rows - 1, i) = value;
+    }
+
+    inStream.close();
+    return true;
 }
