@@ -9,6 +9,13 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+class Position
+{
+public:
+    double x, y, z, row, theta, psi;
+    Position(double x, double y, double z, double row, double theta, double psi);
+};
+
 // Namespace for camera functions
 namespace cf
 {
@@ -31,7 +38,7 @@ namespace cf
      * into cv::Mat objects.
      */
     bool loadCameraCalibration(const std::string &filename, cv::Mat &cameraMatrix,
-                               cv::Mat &distortionCoefficients);
+                               cv::Mat &distCoeffs);
 
     /**
      * Function: locateTarget
@@ -43,18 +50,10 @@ namespace cf
     void locateTarget(const cv::Mat &src, cv::Mat &dst);
 
     /**
-     * Function: displayImage
-     * -------------------------
-     * Helper function DELETE
-     */
-    void displayImage(const cv::Mat &img, int delay);
-
-    /**
      * Function: capture
      * Opens video stream and searches for aruco marker #7
      */
-    int capture(const cv::Mat &cameraMatrix, const cv::Mat &distortionCoefficients,
-                float markerDimensions);
+    int capture(const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs, float markerDimensions);
     /**
      * Function: calibrateChessboard
      * -------------------------
@@ -63,7 +62,41 @@ namespace cf
      * distortion coefficients that account for rotational and tangential distortion. These values
      * are saved to a json in assets/config/<cameraname>.json.
      */
-    void calibrateChessboard(const std::string &name);
+    void calibrateCamera(const std::string &name);
+
+    bool detectTarget(const cv::Mat &src, std::vector<cv::Point2f> &targetCorners);
+    Position estimatePose(const std::vector<cv::Point2f> &targetCorners, float targetDimension,
+                          const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs);
+    /**
+     * Function: displayPosition
+     * -------------------------
+     * Displays translation and rotation in the top right corner of the frame provided.
+     */
+    void displayPosition(cv::Mat &src, Position position);
+    void displayPosition(cv::Mat &img, const cv::Vec3d &tvecs, const cv::Vec3d &rvecs);
+
+    /**
+     * Function: displayMat
+     * -------------------------
+     * Takes cv::Mat and displays it for delay milliseconds. Useful debugging tool.
+     */
+    void displayMat(const cv::Mat &img, int delay);
+
+    /**
+     * Function: checkContour
+     * -------------------------
+     * Determines if contour provided is a valid target candidate.
+     */
+    bool checkContour(const cv::Mat &src, const std::vector<cv::Point> &contour,
+                      double minPerimeterRate, double maxPerimeterRate,
+                      double minCornerDistanceRate, int minDistanceToBorder);
+
+    /**
+     * Function: eulerAnglesToRotationMatrix
+     * -------------------------
+     * Calculates rotation matrix given euler angles.
+     */
+    cv::Mat eulerAnglesToRotationMatrix(cv::Vec3d &rvecs);
 
 }    // namespace cf
 

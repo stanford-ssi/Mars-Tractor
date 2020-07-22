@@ -1,44 +1,13 @@
 #include "camera.h"
 
-void cf::locateTarget(const cv::Mat &src, cv::Mat &dst)
-{
-    cv::Mat grey;
-    cv::cvtColor(src, grey, cv::COLOR_BGR2GRAY);
-    // cf::displayImage(grey, 3);
+void cf::locateTarget(const cv::Mat &src, cv::Mat &dst) {}
 
-    cv::Mat blur;
-    cv::GaussianBlur(grey, blur, cv::Size(5, 5), 0, 0);
-    // cf::displayImage(blur, 3);
-
-    cv::Mat bin;
-    double threshold = 50;
-    cv::threshold(blur, bin, threshold, 255, cv::THRESH_BINARY);
-    cf::displayImage(bin, 0);
-
-    cv::Mat contours;
-    cv::findContours(bin, contours, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
-    cf::displayImage(contours, 0);
-
-    cv::Scalar color = cv::Scalar(0, 255, 0);
-    cv::drawContours(contours, dst, cv::CHAIN_APPROX_SIMPLE, color);
-    cf::displayImage(dst, 3);
-}
-
-void cf::displayImage(const cv::Mat &img, int delay)
-{
-    cv::namedWindow("image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("image", img);
-    cv::waitKey(delay * 1000);
-}
-
-int cf::capture(const cv::Mat &cameraMatrix, const cv::Mat &distortionCoefficients,
-                float markerDimensions)
+int cf::capture(const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs, float markerDimensions)
 {
     cv::Mat frame;
     std::vector<int> markerIds = {7};
 
     std::vector<std::vector<cv::Point2f>> markerCorners, rejects;
-    cv::aruco::DetectorParameters parameters;
 
     cv::Ptr<cv::aruco::Dictionary> markerDictionary =
         cv::aruco::getPredefinedDictionary(cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_4X4_50);
@@ -52,7 +21,7 @@ int cf::capture(const cv::Mat &cameraMatrix, const cv::Mat &distortionCoefficien
     }
     cv::namedWindow("Camera", cv::WINDOW_AUTOSIZE);
 
-    std::vector<cv::Vec3d> rotationVectors, translationVectors;
+    std::vector<cv::Vec3d> rvecs, tvecs;
 
     bool isRead = cap.read(frame);
     if (!isRead) std::cerr << "Camera cannot be read." << std::endl;
@@ -65,12 +34,20 @@ int cf::capture(const cv::Mat &cameraMatrix, const cv::Mat &distortionCoefficien
 
         cv::aruco::detectMarkers(frame, markerDictionary, markerCorners, markerIds);
         cv::aruco::estimatePoseSingleMarkers(markerCorners, markerDimensions, cameraMatrix,
-                                             distortionCoefficients, rotationVectors,
-                                             translationVectors);
+                                             distCoeffs, rvecs, tvecs);
         for (int i = 0; i < markerIds.size(); i++)
         {
-            cv::aruco::drawAxis(frame, cameraMatrix, distortionCoefficients, rotationVectors[i],
-                                translationVectors[i], 0.1f);
+            cv::aruco::drawAxis(frame, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1f);
+            std::string translationText = "x: " + std::to_string(tvecs[i][0]) +
+                                          ", y: " + std::to_string(tvecs[i][1]) +
+                                          ", z: " + std::to_string(tvecs[i][2]);
+            std::string rotationText = "row: " + std::to_string(rvecs[i][0]) +
+                                       ", theta: " + std::to_string(rvecs[i][1]) +
+                                       ", psi: " + std::to_string(rvecs[i][2]);
+            cv::putText(frame, translationText, cv::Point(0, 20), cv::FONT_HERSHEY_PLAIN, 1,
+                        cv::Scalar(0, 0, 0));
+            cv::putText(frame, rotationText, cv::Point(0, 50), cv::FONT_HERSHEY_PLAIN, 1,
+                        cv::Scalar(0, 0, 0));
         }
         cv::imshow("Camera", frame);
         if (cv::waitKey(30) >= 0) break;
@@ -97,8 +74,8 @@ void cf::createArucoMarkers()
     }
 }
 
-bool cf::loadCameraCalibration(const std::string& filename, cv::Mat &cameraMatrix,
-                               cv::Mat &distortionCoefficients)
+bool cf::loadCameraCalibration(const std::string &filename, cv::Mat &cameraMatrix,
+                               cv::Mat &distCoeffs)
 {
     std::ifstream inStream(filename);
     if (!inStream.is_open()) return false;
@@ -107,7 +84,7 @@ bool cf::loadCameraCalibration(const std::string& filename, cv::Mat &cameraMatri
     inStream >> calib;
 
     cameraMatrix = cv::Mat(cv::Size(3, 3), CV_64F);
-    distortionCoefficients = cv::Mat::zeros(cv::Size(5, 1), CV_64F);
+    distCoeffs = cv::Mat::zeros(cv::Size(5, 1), CV_64F);
 
     for (int i = 0; i < cameraMatrix.rows; i++)
     {
@@ -118,12 +95,190 @@ bool cf::loadCameraCalibration(const std::string& filename, cv::Mat &cameraMatri
         }
     }
 
-    for (int i = 0; i < distortionCoefficients.cols; i++)
+    for (int i = 0; i < distCoeffs.cols; i++)
     {
-        double value = calib["distortionCoefficients"][i].asDouble();
-        distortionCoefficients.at<double>(distortionCoefficients.rows - 1, i) = value;
+        double value = calib["distCoeffs"][i].asDouble();
+        distCoeffs.at<double>(distCoeffs.rows - 1, i) = value;
     }
 
     inStream.close();
     return true;
+}
+
+bool cf::detectTarget(const cv::Mat &src, std::vector<cv::Point2f> &targetCorners)
+{
+    // Greyscale image
+    cv::Mat grey;
+    cv::cvtColor(src, grey, cv::COLOR_BGR2GRAY);
+
+    // // STEP 1: Detect target candidates
+    // std::vector<std::vector<cv::Point2f>> candidates;
+    // std::vector<std::vector<cv::Point>> contours;
+    // std::vector<std::vector<std::vector<cv::Point2f>>> candidatesSet;
+    // std::vector<std::vector<std::vector<cv::Point>>> contoursSet;
+
+    // cv::Mat blur;
+    // cv::GaussianBlur(grey, blur, cv::Size(5, 5), 0);
+
+    // STEP 2: Detect target candidates
+
+    // Apply adaptive thresholding
+    cv::Mat bin;
+    cv::adaptiveThreshold(grey, bin, 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 5, 0);
+    // cv::threshold(grey, bin, 100, 255, cv::THRESH_BINARY);
+
+    // Find contours
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<std::vector<cv::Point>> candidates;
+    std::vector<cv::Point> approxShape;
+    cv::findContours(bin, contours, cv::RETR_TREE, cv::CHAIN_APPROX_NONE);
+
+    // Remove contours with small number of points (noise)
+    for (int i = 0; i < contours.size(); i++)
+    {
+        bool isValidShape = checkContour(src, contours[i], .03, 4., .05, 3);
+        if (isValidShape)
+        {
+            cv::approxPolyDP(contours[i], approxShape, 3, true);
+            candidates.push_back(approxShape);
+        }
+        // // Approximate polygonal shape of remaining borders and keep concaves with 4 corners
+        // cv::approxPolyDP(contours[i], approxShape, 3, true);
+
+        // if (approxShape.size() == 4 && cv::isContourConvex(approxShape))
+        // {
+        // candidates.push_back(approxShape);
+        // }
+    }
+    cv::Mat img = cv::Mat::ones(cv::Size(bin.rows, bin.cols), 0);
+    img.setTo(cv::Scalar(255, 255, 255));
+
+    cv::drawContours(src, candidates, -1, cv::Scalar(66, 135, 245));
+    displayMat(src, 30);
+
+    // Remove internal rectangles
+
+    // Remove projection perspective
+    // Threshold with Otsu's algorithm
+    // Detect rotation and return target corners
+
+    // cf::displayImage(blur, 3);
+
+    return false;
+}
+
+bool cf::checkContour(const cv::Mat &src, const std::vector<cv::Point> &contour,
+                      double minPerimeterRate, double maxPerimeterRate,
+                      double minCornerDistanceRate, int minDistanceToBorder)
+{
+    unsigned int minPerimeterPixels =
+        (unsigned int)(minPerimeterRate * std::max(src.cols, src.rows));
+    unsigned int maxPerimeterPixels =
+        (unsigned int)(maxPerimeterRate * std::max(src.cols, src.rows));
+    // check perimeter
+    if (contour.size() < minPerimeterPixels || contour.size() > maxPerimeterPixels) return false;
+
+    // check is square and is convex
+    std::vector<cv::Point> approxShape;
+    cv::approxPolyDP(contour, approxShape, 3, true);
+    if (approxShape.size() != 4 || !cv::isContourConvex(approxShape)) return false;
+
+    // check min distance between corners
+    double minDistSq = std::max(src.cols, src.rows) * std::max(src.cols, src.rows);
+    for (int j = 0; j < 4; j++)
+    {
+        double d = (double)(approxShape[j].x - approxShape[(j + 1) % 4].x) *
+                       (double)(approxShape[j].x - approxShape[(j + 1) % 4].x) +
+                   (double)(approxShape[j].y - approxShape[(j + 1) % 4].y) *
+                       (double)(approxShape[j].y - approxShape[(j + 1) % 4].y);
+        minDistSq = std::min(minDistSq, d);
+    }
+    double minCornerDistancePixels = double(contour.size()) * minCornerDistanceRate;
+    if (minDistSq < minCornerDistancePixels * minCornerDistancePixels) return false;
+
+    // check if it is too near to the image border
+    bool tooNearBorder = false;
+    for (int j = 0; j < 4; j++)
+    {
+        if (approxShape[j].x < minDistanceToBorder || approxShape[j].y < minDistanceToBorder ||
+            approxShape[j].x > src.cols - 1 - minDistanceToBorder ||
+            approxShape[j].y > src.rows - 1 - minDistanceToBorder)
+            tooNearBorder = true;
+    }
+    if (tooNearBorder) return false;
+
+    // if it passes all the test, return true
+    return true;
+}
+
+Position cf::estimatePose(const std::vector<cv::Point2f> &targetCorners, float targetDimension,
+                          const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs)
+{
+    std::vector<cv::Point2f> cameraPoints;
+    cv::Vec3d rvecs, tvecs;
+    cv::solvePnP(targetCorners, cameraPoints, cameraMatrix, distCoeffs, rvecs, tvecs);
+
+    return Position(tvecs[0], tvecs[1], tvecs[2], rvecs[0], rvecs[1], rvecs[2]);
+}
+
+void cf::displayPosition(cv::Mat &src, Position position)
+{
+    std::string translationText = "x: " + std::to_string(position.x) +
+                                  ", y: " + std::to_string(position.y) +
+                                  ", z: " + std::to_string(position.z);
+    std::string rotationText = "row: " + std::to_string(position.row) +
+                               ", theta: " + std::to_string(position.theta) +
+                               ", psi: " + std::to_string(position.psi);
+    cv::putText(src, translationText, cv::Point(0, 20), cv::FONT_HERSHEY_PLAIN, 1,
+                cv::Scalar(0, 0, 0));
+    cv::putText(src, rotationText, cv::Point(0, 50), cv::FONT_HERSHEY_PLAIN, 1,
+                cv::Scalar(0, 0, 0));
+}
+
+Position::Position(double x, double y, double z, double row, double theta, double psi)
+{
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->row = row;
+    this->theta = theta;
+    this->psi = psi;
+}
+
+void cf::displayMat(const cv::Mat &img, int delay)
+{
+    cv::namedWindow("Image", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Image", img);
+    if (cv::waitKey(delay) >= 0) return;
+}
+
+cv::Mat eulerAnglesToRotationMatrix(cv::Vec3d &rvecs)
+{
+    // Calculate rotation about x axis
+    cv::Mat R_x = (cv::Mat_<double>(3, 3) << 1, 0, 0, 0, cos(rvecs[0]), -sin(rvecs[0]), 0,
+                   sin(rvecs[0]), cos(rvecs[0]));
+
+    // Calculate rotation about y axis
+    cv::Mat R_y = (cv::Mat_<double>(3, 3) << cos(rvecs[1]), 0, sin(rvecs[1]), 0, 1, 0,
+                   -sin(rvecs[1]), 0, cos(rvecs[1]));
+
+    // Calculate rotation about z axis
+    cv::Mat R_z = (cv::Mat_<double>(3, 3) << cos(rvecs[2]), -sin(rvecs[2]), 0, sin(rvecs[2]),
+                   cos(rvecs[2]), 0, 0, 0, 1);
+
+    return cv::Mat();
+}
+void cf::displayPosition(cv::Mat &img, const cv::Vec3d &tvecs, const cv::Vec3d &rvecs)
+{
+
+    std::string translationText = "x: " + std::to_string(tvecs[0]) +
+                                  ", y: " + std::to_string(tvecs[1]) +
+                                  ", z: " + std::to_string(tvecs[2]);
+    std::string rotationText = "row: " + std::to_string(rvecs[0]) +
+                               ", theta: " + std::to_string(rvecs[1]) +
+                               ", psi: " + std::to_string(rvecs[2]);
+    cv::putText(img, translationText, cv::Point(0, 20), cv::FONT_HERSHEY_PLAIN, 1,
+                cv::Scalar(0, 0, 0));
+    cv::putText(img, rotationText, cv::Point(0, 50), cv::FONT_HERSHEY_PLAIN, 1,
+                cv::Scalar(0, 0, 0));
 }
