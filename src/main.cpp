@@ -18,7 +18,7 @@ int main()
     cv::Mat frame;
 
     cv::VideoCapture cap(0);
-    cv::namedWindow("Camera", cv::WINDOW_AUTOSIZE);
+    cv::namedWindow("Camera", cv::WINDOW_NORMAL);
 
     if (!cap.isOpened())
     {

@@ -6,5 +6,4 @@ TEST(CameraTest1, returnsPoints)
 {
     cv::Mat img = cv::imread("assets/image.jpeg");
     cv::Mat dst;
-    cf::locateTarget(img, dst);
 }

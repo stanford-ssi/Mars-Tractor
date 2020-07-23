@@ -54,6 +54,7 @@ namespace cf
      * Opens video stream and searches for aruco marker #7
      */
     int capture(const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs, float markerDimensions);
+
     /**
      * Function: calibrateChessboard
      * -------------------------
@@ -92,11 +93,12 @@ namespace cf
                       double minCornerDistanceRate, int minDistanceToBorder);
 
     /**
-     * Function: eulerAnglesToRotationMatrix
+     * Function: rotationMatrixToEulerAngles
      * -------------------------
-     * Calculates rotation matrix given euler angles.
+     * Calculates euler angles give rotation matrix.
      */
-    cv::Mat eulerAnglesToRotationMatrix(cv::Vec3d &rvecs);
+    cv::Vec3d rotationMatrixToEulerAngles(const cv::Mat &R);
+
 
 }    // namespace cf
 

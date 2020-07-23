@@ -252,33 +252,48 @@ void cf::displayMat(const cv::Mat &img, int delay)
     if (cv::waitKey(delay) >= 0) return;
 }
 
-cv::Mat eulerAnglesToRotationMatrix(cv::Vec3d &rvecs)
+cv::Vec3d cf::rotationMatrixToEulerAngles(const cv::Mat &R)
 {
-    // Calculate rotation about x axis
-    cv::Mat R_x = (cv::Mat_<double>(3, 3) << 1, 0, 0, 0, cos(rvecs[0]), -sin(rvecs[0]), 0,
-                   sin(rvecs[0]), cos(rvecs[0]));
 
-    // Calculate rotation about y axis
-    cv::Mat R_y = (cv::Mat_<double>(3, 3) << cos(rvecs[1]), 0, sin(rvecs[1]), 0, 1, 0,
-                   -sin(rvecs[1]), 0, cos(rvecs[1]));
+    //assert(isRotationMatrix(R));
 
-    // Calculate rotation about z axis
-    cv::Mat R_z = (cv::Mat_<double>(3, 3) << cos(rvecs[2]), -sin(rvecs[2]), 0, sin(rvecs[2]),
-                   cos(rvecs[2]), 0, 0, 0, 1);
+    double sy =
+        std::sqrt(R.at<double>(0, 0) * R.at<double>(0, 0) + R.at<double>(1, 0) * R.at<double>(1, 0));
 
-    return cv::Mat();
+    bool singular = sy < 1e-6;    // If
+
+    double x, y, z;
+    if (!singular)
+    {
+        x = std::atan2(R.at<double>(2, 1), R.at<double>(2, 2)) * 180 / 3.14;
+        y = std::atan2(-R.at<double>(2, 0), sy)* 180 / 3.14;
+        z = std::atan2(R.at<double>(1, 0), R.at<double>(0, 0))* 180 / 3.14;
+    }
+    else
+    {
+        x = std::atan2(-R.at<double>(1, 2), R.at<double>(1, 1));
+        y = std::atan2(-R.at<double>(2, 0), sy);
+        z = 0;
+    }
+
+    return cv::Vec3d(x, y, z);
 }
+
 void cf::displayPosition(cv::Mat &img, const cv::Vec3d &tvecs, const cv::Vec3d &rvecs)
 {
+    cv::Mat R;
+    cv::Rodrigues(rvecs, R);
+    cv::Vec3d angles = rotationMatrixToEulerAngles(R);
 
+    double degreeConstant = 180 / 3.1416;
     std::string translationText = "x: " + std::to_string(tvecs[0]) +
                                   ", y: " + std::to_string(tvecs[1]) +
                                   ", z: " + std::to_string(tvecs[2]);
-    std::string rotationText = "row: " + std::to_string(rvecs[0]) +
-                               ", theta: " + std::to_string(rvecs[1]) +
-                               ", psi: " + std::to_string(rvecs[2]);
-    cv::putText(img, translationText, cv::Point(0, 20), cv::FONT_HERSHEY_PLAIN, 1,
-                cv::Scalar(0, 0, 0));
-    cv::putText(img, rotationText, cv::Point(0, 50), cv::FONT_HERSHEY_PLAIN, 1,
-                cv::Scalar(0, 0, 0));
+    std::string rotationText = "row: " + std::to_string(angles[0]) +
+                               ", theta: " + std::to_string(angles[1]) +
+                               ", psi: " + std::to_string(angles[2]);
+    cv::putText(img, translationText, cv::Point(0, 20), cv::FONT_HERSHEY_PLAIN, 1.25,
+                cv::Scalar(66, 135, 245));
+    cv::putText(img, rotationText, cv::Point(0, 50), cv::FONT_HERSHEY_PLAIN, 1.25,
+                cv::Scalar(66, 135, 245));
 }
