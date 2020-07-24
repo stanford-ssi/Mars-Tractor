@@ -27,7 +27,7 @@ namespace cf
     /**
      * Function: createArucoMarkers
      * -------------------------
-     * Generates 50 4x4 aruco markers and saves them to assets/makers as .jpg images.
+     * Generates 50 4x4 aruco markers and saves them to assets/markers as .jpg images.
      */
     void createArucoMarkers();
 
