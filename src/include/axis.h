@@ -1,7 +1,8 @@
-/*
- * File: axis.h
- * -------------
- * This file defines an axis class for interacting with dualshock joysticks.
+/** @file axis.h
+ * -----------------------------
+ * @brief This file defines an axis class for interacting with dualshock joysticks.
+ * @author Bartolone, Kai
+ * @date June 2020
  */
 
 #ifndef _axis_Included

@@ -1,7 +1,8 @@
-/*
- * File: button.h
- * -------------
- * This file defines an button class for interacting with dualshock buttons.
+/** @file axis.h
+ * -----------------------------
+ * @brief This file defines an button class for interacting with dualshock buttons.
+ * @author Bartolone, Kai
+ * @date June 2020
  */
 
 #ifndef _button_Included

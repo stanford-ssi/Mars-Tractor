@@ -1,3 +1,10 @@
+/** @file main.cpp
+ * -----------------------------
+ * @brief Main testing file.
+ * @author Bartolone, Kai
+ * @date June 2020
+ */
+
 #include <gtest/gtest.h>
 #include "camera.h"
 

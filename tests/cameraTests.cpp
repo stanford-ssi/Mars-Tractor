@@ -1,3 +1,10 @@
+/** @file cameraTests.cpp
+ * -----------------------------
+ * @brief Tests camera functions.
+ * @author Bartolone, Kai
+ * @date June 2020
+ */
+
 #include <gtest/gtest.h>
 #include <opencv2/opencv.hpp>
 #include "camera.h"

@@ -50,23 +50,25 @@ target_include_directories( main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 target_include_directories( tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include )
 
 # Generate Documentation
-option(BUILD_DOC "Build documentation" ON)
+option( BUILD_DOC "Build documentation" ON )
 
-if (DOXYGEN_FOUND)
+if ( BUILD_DOC )
+    if ( NOT DOXYGEN_FOUND )
+    endif()
 
     # Set Input and Output Files
-    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
-    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile)
 
     # Request to Configure the File
     configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
     message("Doxygen build started")
 
     # Build the Docs Together with the Application
-    add_custom_target( doc_doxygen ALL
+    add_custom_target( doxygen ALL
         COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        #WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doxygen
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM )
-        
-endif (DOXYGEN_FOUND)
+            
+endif ()

@@ -1,3 +1,13 @@
+/** @file axis.h
+ * -----------------------------
+ * @author Bartolone, Kai
+ * @date July 2020
+ */
+/** @file camera.h
+ * -----------------------------
+ * @brief Defines functionality for marker detection.
+ */
+
 #ifndef _camera_Included
 #define _camera_Included
 
@@ -9,6 +19,11 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+/**
+ * @class Position
+ * -----------------------------
+ * Position is a data object that can contains three dimensional coordinates and angles of a target.
+ */
 class Position
 {
 public:
@@ -20,12 +35,12 @@ public:
 namespace cf
 {
     /** Camera Constants */
-    const float MARKER_DIMENSION = .15f;    // Square side length of marker in meters
+    const float MARKER_DIMENSION = .15f; /** < Square side length of marker in meters */
 
     /** Functions */
 
     /**
-     * Function: createArucoMarkers
+     * @fn createArucoMarkers
      * -------------------------
      * Generates 50 4x4 aruco markers and saves them to assets/markers as .jpg images.
      */
@@ -98,8 +113,6 @@ namespace cf
      * Calculates euler angles give rotation matrix.
      */
     cv::Vec3d rotationMatrixToEulerAngles(const cv::Mat &R);
-
-
 }    // namespace cf
 
 #endif

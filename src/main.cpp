@@ -1,3 +1,12 @@
+/** @file main.cpp
+ * -----------------------------
+ * @brief Main function.
+ * @author Bartolone, Kai
+ * @date May 2020
+ *
+ * This file determines autonomous functionality or controlled functionality of the Mars tractor.
+ */
+
 #include <camera.h>
 //#include "dualshock.h"
 #include <iostream>
@@ -28,7 +37,7 @@ int main()
 
     bool isRead = cap.read(frame);
     if (!isRead) std::cerr << "Camera cannot be read." << std::endl;
-    
+
     std::vector<int> markerIds = {7};
     std::vector<std::vector<cv::Point2f>> markerCorners;
     cv::Ptr<cv::aruco::Dictionary> markerDictionary =
@@ -48,7 +57,6 @@ int main()
         {
             cv::aruco::drawAxis(frame, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1f);
             cf::displayPosition(frame, tvecs[i], rvecs[i]);
-
         }
         cv::imshow("Camera", frame);
         if (cv::waitKey(30) >= 0) break;
