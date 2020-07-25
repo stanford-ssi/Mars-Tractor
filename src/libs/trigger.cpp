@@ -1,4 +1,12 @@
+/** @file trigger.cpp
+ * -----------------------------
+ * @brief Implements methods for storing dualshock trigger information.
+ * @author Bartolone, Kai
+ * @date June 2020
+ */
+
 #include "trigger.h"
+
 /*
 Trigger::Trigger(float threshold)
 {

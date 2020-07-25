@@ -1,3 +1,10 @@
+/** @file motion.cpp
+ * -----------------------------
+ * @brief Implements methods for storing dualshock motion data.
+ * @author Bartolone, Kai
+ * @date June 2020
+ */
+
 #include "motion.h"
 
 void Motion::setState(int x, int y, int z)

@@ -1,3 +1,10 @@
+/** @file camera.h
+ * -----------------------------
+ * @brief Defines functionality for marker detection.
+ * @author Bartolone, Kai
+ * @date July 2020
+ */
+
 #ifndef _camera_Included
 #define _camera_Included
 
@@ -9,6 +16,11 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+/**
+ * @class Position
+ * -----------------------------
+ * Position is a data object that can contains three dimensional coordinates and angles of a target.
+ */
 class Position
 {
 public:
@@ -20,14 +32,14 @@ public:
 namespace cf
 {
     /** Camera Constants */
-    const float MARKER_DIMENSION = .15f;    // Square side length of marker in meters
+    const float MARKER_DIMENSION = .15f; /** < Square side length of marker in meters */
 
     /** Functions */
 
     /**
-     * Function: createArucoMarkers
+     * @fn createArucoMarkers
      * -------------------------
-     * Generates 50 4x4 aruco markers and saves them to assets/makers as .jpg images.
+     * Generates 50 4x4 aruco markers and saves them to assets/markers as .jpg images.
      */
     void createArucoMarkers();
 
@@ -61,13 +73,14 @@ namespace cf
      * Opens video stream from a webcam that takes many photos of an opencv 9 by 6 chessboard at
      * different angles and distances. These photos are used to produce a camera matrix and
      * distortion coefficients that account for rotational and tangential distortion. These values
-     * are saved to a json in assets/config/<cameraname>.json.
+     * are saved to a json in assets/config/{cameraname}_Calibration.json.
      */
     void calibrateCamera(const std::string &name);
 
     bool detectTarget(const cv::Mat &src, std::vector<cv::Point2f> &targetCorners);
     Position estimatePose(const std::vector<cv::Point2f> &targetCorners, float targetDimension,
                           const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs);
+                          
     /**
      * Function: displayPosition
      * -------------------------
@@ -98,8 +111,6 @@ namespace cf
      * Calculates euler angles give rotation matrix.
      */
     cv::Vec3d rotationMatrixToEulerAngles(const cv::Mat &R);
-
-
 }    // namespace cf
 
 #endif

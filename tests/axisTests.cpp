@@ -1,9 +1,15 @@
-/**
- * tests for every method and check that exceptions are throwing properly
+/** @file axisTests.cpp
+ * -----------------------------
+ * @brief Tests Axis class for functionality
+ * @author Bartolone, Kai
+ * @date June 2020
+ *
+ * Tests all methods and ensures that exceptions are thrown when inputs are invalid.
  */
-#include <gtest/gtest.h>
-#include "button.h"
+
 #include "axis.h"
+#include "button.h"
+#include <gtest/gtest.h>
 
 TEST(gtest, button)
 {

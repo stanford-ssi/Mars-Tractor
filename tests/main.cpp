@@ -1,18 +1,13 @@
+/** @file main.cpp
+ * -----------------------------
+ * @brief Main testing file.
+ * @author Bartolone, Kai
+ * @date June 2020
+ */
+
 #include <gtest/gtest.h>
 #include "camera.h"
 
-TEST(gtest, check)
-{
-    bool thing = false;
-    ASSERT_FALSE(thing);
-}
-
-TEST(CameraTests, returnsPoints)
-{
-    cv::Mat img = cv::imread("assets/image.jpeg");
-    cv::Mat dst;
-    cf::locateTarget(img, dst);
-}
 
 int main(int argc, char **argv)
 {

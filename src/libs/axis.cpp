@@ -1,3 +1,14 @@
+/** @file axis.h
+ * -----------------------------
+ * @author Bartolone, Kai
+ * @date July 2020
+ */
+/*
+ * File: axis.cpp
+ * -----------------------------
+ * This file implements an axis class functionality defined in axis.
+ */
+
 #include "axis.h"
 
 cv::Point2f Axis::getState()
