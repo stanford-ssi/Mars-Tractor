@@ -10,11 +10,14 @@
 
 class Button
 {
-    public:
-        bool getState();
-        void setState(bool state);
-    private:
-        bool isDown = false;
+public:
+    bool getState();
+    void setState(bool state);
+
+    template <typename _Fn, typename... _Args> void addEventListener(_Fn &&_Fx, _Args &&... _Ax);
+
+private:
+    bool isDown = false;
 };
 
 #endif

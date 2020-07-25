@@ -50,7 +50,7 @@ target_include_directories( main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 target_include_directories( tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include )
 
 # Generate Documentation
-option( BUILD_DOC "Build documentation" ON )
+option( BUILD_DOC "Build documentation" OFF )
 
 if ( BUILD_DOC )
     if ( NOT DOXYGEN_FOUND )

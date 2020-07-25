@@ -9,8 +9,15 @@
 #include <opencv2/opencv.hpp>
 #include "camera.h"
 
-TEST(CameraTest1, returnsPoints)
+TEST(camera_calibration, regression)
 {
     cv::Mat img = cv::imread("assets/image.jpeg");
     cv::Mat dst;
+}
+
+TEST(CameraTests, returnsPoints)
+{
+    cv::Mat img = cv::imread("assets/image.jpeg");
+    cv::Mat dst;
+    cf::locateTarget(img, dst);
 }

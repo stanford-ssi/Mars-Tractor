@@ -1,11 +1,8 @@
-/** @file axis.h
- * -----------------------------
- * @author Bartolone, Kai
- * @date July 2020
- */
 /** @file camera.h
  * -----------------------------
  * @brief Defines functionality for marker detection.
+ * @author Bartolone, Kai
+ * @date July 2020
  */
 
 #ifndef _camera_Included
@@ -76,13 +73,14 @@ namespace cf
      * Opens video stream from a webcam that takes many photos of an opencv 9 by 6 chessboard at
      * different angles and distances. These photos are used to produce a camera matrix and
      * distortion coefficients that account for rotational and tangential distortion. These values
-     * are saved to a json in assets/config/<cameraname>.json.
+     * are saved to a json in assets/config/{cameraname}_Calibration.json.
      */
     void calibrateCamera(const std::string &name);
 
     bool detectTarget(const cv::Mat &src, std::vector<cv::Point2f> &targetCorners);
     Position estimatePose(const std::vector<cv::Point2f> &targetCorners, float targetDimension,
                           const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs);
+                          
     /**
      * Function: displayPosition
      * -------------------------
