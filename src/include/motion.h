@@ -1,11 +1,7 @@
-/** @file axis.h
+/** @file motion.h
  * -----------------------------
  * @author Bartolone, Kai
  * @date June 2020
- */
-/*
- * File: motion.h
- * -------------
  * This file defines an motion class for interacting with dualshock motion controls.
  */
 

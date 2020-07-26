@@ -1,4 +1,4 @@
-/** @file axis.h
+/** @file button.h
  * -----------------------------
  * @brief This file defines an button class for interacting with dualshock buttons.
  * @author Bartolone, Kai
@@ -8,22 +8,50 @@
 #ifndef _button_Included
 #define _button_Included
 
+#include "event.h"
 #include <thread>
 
+/** @class Button */
 class Button
 {
 public:
+    /**
+     * @fn getState
+     * -------------------------
+     * @return isDown
+     */
     bool getState();
+
+    /**
+     * @fn setState
+     * -------------------------
+     * This method sets isDown and should only be accessed by the dualshock class when polling. If
+     * isDown is set to true, setState will call the function provided from addEventListener if one
+     * is provided.
+     */
     void setState(bool state);
 
-    template <typename _Fn, typename... _Args> void addEventListener(_Fn&& fn, _Args... args)
+    /**
+     * @fn addEventListener
+     * -------------------------
+     * This method stores a function and its parameters that are called whenever the button is
+     * pressed and isDown is set from false to true.
+     * @param fn A function pointer to be called. ex: loadCameraCalibration, &Button::setState
+     * @param args Any arguments the function takes. Make sure to pass in an object pointer if fn is
+     * a member function.
+     */
+    template <typename Fn, typename... Args> void addEventListener(Fn &&fn, Args &&... args)
     {
-        std::thread event(fn, (args)...);
-        event.join();
+        hasEvent = true;
+        // Event event = Event(fn, (args)...);
+        Traits trait =  Traits<>(args. . .);
+        // std::thread event(fn, (args)...); event.join();
     }
 
 private:
     bool isDown = false;
+    bool hasEvent = false;
+    // Action event;
 };
 
 #endif

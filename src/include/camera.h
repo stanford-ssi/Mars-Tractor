@@ -28,7 +28,7 @@ public:
     Position(double x, double y, double z, double row, double theta, double psi);
 };
 
-// Namespace for camera functions
+/** @namespace cf */
 namespace cf
 {
     /** Camera Constants */
