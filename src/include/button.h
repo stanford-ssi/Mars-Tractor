@@ -8,13 +8,19 @@
 #ifndef _button_Included
 #define _button_Included
 
+#include <thread>
+
 class Button
 {
 public:
     bool getState();
     void setState(bool state);
 
-    template <typename _Fn, typename... _Args> void addEventListener(_Fn &&_Fx, _Args &&... _Ax);
+    template <typename _Fn, typename... _Args> void addEventListener(_Fn&& fn, _Args... args)
+    {
+        std::thread event(fn, (args)...);
+        event.join();
+    }
 
 private:
     bool isDown = false;

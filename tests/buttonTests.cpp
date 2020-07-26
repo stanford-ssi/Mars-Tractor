@@ -11,35 +11,64 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-class EventTests : public ::testing::Test
+class ButtonTests : public ::testing::Test
 {
 protected:
-    void check1() { std::cout << "Function executed" << std::endl; }
+    void check1() { return; }
 
     bool check2() { return true; }
 
     bool check3(int num, bool ran)
     {
-        std::cout << num << std::endl;
-        return ran;
+        if (ran)
+            return true;
+        else
+            return ran;
     }
 
-    void test()
+    void check4(bool &change) { change = false; }
+
+    void initial()
     {
         Button button = Button();
-        button.addEventListener(&EventTests::check1);
+        EXPECT_NO_THROW(button.addEventListener(&ButtonTests::check1, this));
+    }
+
+    void returns()
+    {
+        Button button = Button();
+        EXPECT_NO_THROW(button.addEventListener(&ButtonTests::check2, this));
+    }
+
+    void parameters()
+    {
+        Button button = Button();
+        bool run = true;
+        EXPECT_NO_THROW(button.addEventListener(&ButtonTests::check3, this, 7, run));
+    }
+
+    void reference()
+    {
+        bool run = true;
+        Button button = Button();
+        ASSERT_NO_THROW(button.addEventListener(&ButtonTests::check4, this, std::ref(run)));
+        EXPECT_FALSE(run);
     }
 };
 
-TEST(Button, GetState)
+TEST_F(ButtonTests, SetState_IsSetting)
 {
     Button button = Button();
-    ASSERT_FALSE(button.getState());
+    EXPECT_FALSE(button.getState());
+
     button.setState(true);
-    ASSERT_TRUE(button.getState());
+    EXPECT_TRUE(button.getState());
+
+    button.setState(false);
+    EXPECT_FALSE(button.getState());
 }
 
-TEST_F(EventTests, AddEventListener)
-{
-    test();
-}
+TEST_F(ButtonTests, AddEventListener_NoThrow) { initial(); }
+TEST_F(ButtonTests, AddEventListener_NoThrowWithParameters) { parameters(); }
+TEST_F(ButtonTests, AddEventListener_CanReturn) { returns(); }
+TEST_F(ButtonTests, AddEventListener_TakenByReference) { reference(); }

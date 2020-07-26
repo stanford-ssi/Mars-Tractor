@@ -11,14 +11,8 @@
 #include "button.h"
 #include <gtest/gtest.h>
 
-TEST(gtest, button)
-{
-    Button button = Button();
-    ASSERT_FALSE(button.getState());
-    button.setState(true);
-    ASSERT_TRUE(button.getState());
-}
-TEST(gtest2, axis)
+
+TEST(AxisTests, axis)
 {
     Axis axis = Axis();
     axis.setX(.4);
