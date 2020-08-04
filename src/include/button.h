@@ -8,8 +8,8 @@
 #ifndef _button_Included
 #define _button_Included
 
-#include "event.h"
 #include <thread>
+#include <boost/signals2.hpp>
 
 /** @class Button */
 class Button
@@ -42,15 +42,14 @@ public:
      */
     template <typename Fn, typename... Args> void addEventListener(Fn &&fn, Args &&... args)
     {
+        signal.connect(std::bind(fn, (args)...));
         hasEvent = true;
-        // Event event = Event(fn, (args)...);
-        Traits trait =  Traits<>(args. . .);
-        // std::thread event(fn, (args)...); event.join();
     }
 
 private:
     bool isDown = false;
     bool hasEvent = false;
+    boost::signals2::signal<void ()> signal;
     // Action event;
 };
 
