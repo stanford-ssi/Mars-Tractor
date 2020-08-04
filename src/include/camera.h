@@ -44,7 +44,7 @@ namespace cf
     void createArucoMarkers();
 
     /**
-     * Function: loadCameraCalibration
+     * @fn loadCameraCalibration
      * -------------------------
      * Loads camera matrix and distortion coefficients from json (commonly found in assets/confix)
      * into cv::Mat objects.
@@ -53,7 +53,7 @@ namespace cf
                                cv::Mat &distCoeffs);
 
     /**
-     * Function: locateTarget
+     * @fn locateTarget
      * -------------------------
      * Takes a cv::Mat frame and attempts to locate target. If no target is found, something
      * happens. If target is found, the function solves for the targets rotation and translation
@@ -62,13 +62,13 @@ namespace cf
     void locateTarget(const cv::Mat &src, cv::Mat &dst);
 
     /**
-     * Function: capture
+     * @fn capture
      * Opens video stream and searches for aruco marker #7
      */
     int capture(const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs, float markerDimensions);
 
     /**
-     * Function: calibrateChessboard
+     * @fn calibrateChessboard
      * -------------------------
      * Opens video stream from a webcam that takes many photos of an opencv 9 by 6 chessboard at
      * different angles and distances. These photos are used to produce a camera matrix and
@@ -82,7 +82,7 @@ namespace cf
                           const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs);
                           
     /**
-     * Function: displayPosition
+     * @fn displayPosition
      * -------------------------
      * Displays translation and rotation in the top right corner of the frame provided.
      */
@@ -90,14 +90,14 @@ namespace cf
     void displayPosition(cv::Mat &img, const cv::Vec3d &tvecs, const cv::Vec3d &rvecs);
 
     /**
-     * Function: displayMat
+     * @fn displayMat
      * -------------------------
      * Takes cv::Mat and displays it for delay milliseconds. Useful debugging tool.
      */
     void displayMat(const cv::Mat &img, int delay);
 
     /**
-     * Function: checkContour
+     * @fn checkContour
      * -------------------------
      * Determines if contour provided is a valid target candidate.
      */
@@ -106,7 +106,7 @@ namespace cf
                       double minCornerDistanceRate, int minDistanceToBorder);
 
     /**
-     * Function: rotationMatrixToEulerAngles
+     * @fn rotationMatrixToEulerAngles
      * -------------------------
      * Calculates euler angles give rotation matrix.
      */

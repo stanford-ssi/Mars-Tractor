@@ -1,4 +1,4 @@
-/** @file touchpad.h
+/** @file touchpad.cpp
  * -----------------------------
  * @brief Defines touchpad functionality
  * @author Bartolone, Kai
@@ -7,7 +7,6 @@
 
 #include "touchpad.h"
 
-/* TO BE IMPLEMENTED
- *
- *
-*/
+/** @todo To Be Implemented */
+ 
+ 

@@ -1,4 +1,4 @@
-/** @file axis.h
+/** @file camera.cpp
  * -----------------------------
  * @author Bartolone, Kai
  * @date July 2020

@@ -1,4 +1,4 @@
-/** @file axis.h
+/** @file touchpad.h
  * -----------------------------
  * @author Bartolone, Kai
  * @date June 2020

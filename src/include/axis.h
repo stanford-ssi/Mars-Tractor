@@ -13,12 +13,6 @@
 #include <opencv2/core/types.hpp>
 #include <stdexcept>
 
-/* TODO: implement test case if this function works and throws exception properly
- * write all of the test cases
- * write comments
- *
- */
-
 class Axis
 {
 public:

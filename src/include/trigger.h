@@ -1,4 +1,4 @@
-/** @file axis.h
+/** @file trigger.h
  * -----------------------------
  * @author Bartolone, Kai
  * @date June 2020

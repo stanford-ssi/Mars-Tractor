@@ -8,10 +8,13 @@
  */
 
 #include "axis.h"
-#include "button.h"
 #include <gtest/gtest.h>
 
-
+/** 
+ * @test Set_Get
+ * -----------------------------
+ * Checks if axis setters and getters are working properly.
+ */
 TEST(AxisTests, axis)
 {
     Axis axis = Axis();
