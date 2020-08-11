@@ -8,11 +8,11 @@
 #ifndef _axis_Included
 #define _axis_Included
 
+#include "event.h"
 #include <cstdlib>
 #include <iostream>
 #include <opencv2/core/types.hpp>
 #include <stdexcept>
-#include "event.h"
 
 class Axis : public Event
 {
