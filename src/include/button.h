@@ -9,10 +9,11 @@
 #define _button_Included
 
 #include <thread>
-#include <boost/signals2.hpp>
+
+#include "event.h"
 
 /** @class Button */
-class Button
+class Button : public Event
 {
 public:
     /**
@@ -31,25 +32,26 @@ public:
      */
     void setState(bool state);
 
-    /**
-     * @fn addEventListener
-     * -------------------------
-     * This method stores a function and its parameters that are called whenever the button is
-     * pressed and isDown is set from false to true.
-     * @param fn A function pointer to be called. ex: loadCameraCalibration, &Button::setState
-     * @param args Any arguments the function takes. Make sure to pass in an object pointer if fn is
-     * a member function.
-     */
-    template <typename Fn, typename... Args> void addEventListener(Fn &&fn, Args &&... args)
-    {
-        signal.connect(std::bind(fn, (args)...));
-        hasEvent = true;
-    }
+    // /**
+    //  * @fn addEventListener
+    //  * -------------------------
+    //  * This method stores a function and its parameters that are called whenever the button is
+    //  * pressed and isDown is set from false to true.
+    //  * @param fn A function pointer to be called. ex: loadCameraCalibration, &Button::setState
+    //  * @param args Any arguments the function takes. Make sure to pass in an object pointer if fn
+    //  is
+    //  * a member function.
+    //  */
+    // template <typename Fn, typename... Args> void addEventListener(Fn &&fn, Args &&... args)
+    // {
+    //     signal.connect(std::bind(fn, (args)...));
+    //     hasEvent = true;
+    // }
 
 private:
     bool isDown = false;
-    bool hasEvent = false;
-    boost::signals2::signal<void ()> signal;
+    // bool hasEvent = false;
+    // boost::signals2::signal<void ()> signal;
     // Action event;
 };
 

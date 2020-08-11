@@ -12,8 +12,9 @@
 #include <iostream>
 #include <opencv2/core/types.hpp>
 #include <stdexcept>
+#include "event.h"
 
-class Axis
+class Axis : public Event
 {
 public:
     cv::Point2f getState();
