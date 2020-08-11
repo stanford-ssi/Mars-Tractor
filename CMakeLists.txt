@@ -18,7 +18,7 @@ list( REMOVE_ITEM SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/dualshock.cpp ${
 file( GLOB TESTFILES ${SRCFILES} ${CMAKE_CURRENT_SOURCE_DIR}/tests/* )
 list( REMOVE_ITEM TESTFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp )
 
-message( STATUS ${TESTFILES} )
+set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 # Create Project
 project( tractor )

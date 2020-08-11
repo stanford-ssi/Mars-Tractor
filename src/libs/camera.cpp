@@ -3,6 +3,7 @@
  * @author Bartolone, Kai
  * @date July 2020
  */
+
 #include "camera.h"
 
 void cf::locateTarget(const cv::Mat &src, cv::Mat &dst) {}
