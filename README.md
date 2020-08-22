@@ -42,6 +42,7 @@ Both:
 1. Clone vcpkg anywhere using command > git clone https://github.com/microsoft/vcpkg
 1. Follow installation instructions at [VCPKG](https://github.com/microsoft/vcpkg)
 1. Open a terminal in your vcpkg directory and type these commands to install the dependencies of this repository
+- Typing (./vcpkg help triplet) will list all the triplets. Choose your triplet from this list
     1. > vcpkg install opencv4:triplet
     1. > vcpkg install opencv4[contrib]:triplet --recurse
     1. > vcpkg install gtest:triplet
