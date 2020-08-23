@@ -11,6 +11,8 @@ This repository aims to autonomously control a mars tractor for terraforming.
 - Install Visual Studio Community Edition from this link
 - [Visual Studio](https://visualstudio.microsoft.com/)
 
+- During installation, click on Desktop development with C++ workload and install.
+
 #### Linux:
  - Type this command in your terminal
  - > sudo apt-get install gcc g++
@@ -19,6 +21,7 @@ This repository aims to autonomously control a mars tractor for terraforming.
 Windows:
 - Install CMake from this link
 - [CMake](https://cmake.org/download/)
+- Make sure to get the msi installer instead of the source files.
 
 Linux:
 - Type this command in your terminal
@@ -28,21 +31,35 @@ Linux:
 Windows:
 - Install git from this link
 - [Git](https://git-scm.com/downloads)
+- During installation, leave default/recommended options.
+
 
 Linux:
 - Type this command in your terminal
 - > sudo apt-get install git
 
 Both:
-- Enter these commands into your terminal with your user name and email
+- Enter these commands into your terminal with your github username and email
 - > git config --global user.name "John Doe"
 - > git config --global user.email johndoe@example.com
 
 ### INSTALL VCPKG MANAGER
-1. Clone vcpkg anywhere using command > git clone https://github.com/microsoft/vcpkg
-1. Follow installation instructions at [VCPKG](https://github.com/microsoft/vcpkg)
-1. Open a terminal in your vcpkg directory and type these commands to install the dependencies of this repository
-- Typing (./vcpkg help triplet) will list all the triplets. Choose your triplet from this list
+Windows;
+1. Clone vcpkg anywhere using command
+- > git clone https://github.com/microsoft/vcpkg
+1. Type this command in your administrative terminal inside of your vcpkg folder
+- > .\bootstrap-vcpkg.bat
+
+Linux:
+1. Clone vcpkg anywhere using command
+- > git clone https://github.com/microsoft/vcpkg
+1. Type this command in your terminal inside of your vcpkg folder
+- > ./bootstrap-vcpkg.sh
+
+Both:
+1. Type this command to list all available triplets. Determine what triplet your computer is from this list
+- > vcpkg help triplet
+1. Open a terminal in your vcpkg directory and type these commands to install the dependencies of this repository ( replace the word triplet with your computer's triplet ex. vcpkg install opencv4:x64-windows)
     1. > vcpkg install opencv4:triplet
     1. > vcpkg install opencv4[contrib]:triplet --recurse
     1. > vcpkg install gtest:triplet

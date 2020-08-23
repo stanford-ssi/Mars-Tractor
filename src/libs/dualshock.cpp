@@ -1,8 +1,9 @@
-/** @file axis.h
+/** @file dualshock.cpp
  * -----------------------------
  * @author Bartolone, Kai
  * @date July 2020
  */
+
 #include "dualshock.h"
 
 Dualshock::Dualshock(const std::string &joystickPath, const std::string &touchpadPath,

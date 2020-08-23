@@ -1,8 +1,9 @@
-/** @file axis.h
+/** @file camera.cpp
  * -----------------------------
  * @author Bartolone, Kai
  * @date July 2020
  */
+
 #include "camera.h"
 
 void cf::locateTarget(const cv::Mat &src, cv::Mat &dst) {}

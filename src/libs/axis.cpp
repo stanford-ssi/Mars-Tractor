@@ -1,11 +1,8 @@
-/** @file axis.h
+/** @file axis.cpp
  * -----------------------------
  * @author Bartolone, Kai
  * @date July 2020
- */
-/*
- * File: axis.cpp
- * -----------------------------
+ * 
  * This file implements an axis class functionality defined in axis.
  */
 

@@ -13,8 +13,12 @@ list( APPEND CMAKE_MODULE_PATH ${VCPKG_ROOT_DIR}/downloads/tools )
 #file(GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h)
 
 #Uncomment these when running on non-linux target
-file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/camera.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/camera.h )
-file( GLOB TESTFILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/camera.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/camera.h )
+file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/**/* ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
+list( REMOVE_ITEM SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/libs/dualshock.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/include/dualshock.h )
+file( GLOB TESTFILES ${SRCFILES} ${CMAKE_CURRENT_SOURCE_DIR}/tests/* )
+list( REMOVE_ITEM TESTFILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp )
+
+set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 # Create Project
 project( tractor )
@@ -43,7 +47,7 @@ link_directories( ${jsoncpp_LIB_DIR} )
 target_link_libraries( main ${OpenCV_LIBS} opencv_aruco jsoncpp_lib)
 target_link_libraries( tests PRIVATE ${OpenCV_LIBS} opencv_aruco jsoncpp_lib GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main )
 
-add_test( AllTestsInMain main )
+#add_test( AllTestsInMain tests )
 
 # Link Local Header Files
 target_include_directories( main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include )

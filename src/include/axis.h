@@ -8,31 +8,27 @@
 #ifndef _axis_Included
 #define _axis_Included
 
+#include "event.h"
 #include <cstdlib>
+#include <iostream>
 #include <opencv2/core/types.hpp>
 #include <stdexcept>
-#include <iostream>
 
-/* TODO: implement test case if this function works and throws exception properly
- * write all of the test cases
- * write comments
- * 
- */
-
-class Axis
+class Axis : public Event
 {
-    public:
-        cv::Point2f getState();
-        void setState(float x, float y);
-        float getX();
-        float getY();
-        void setX(float x);
-        void setY(float y);
-        float getDeadzone();
-        void setDeadzone(float deadzone);
-    private:
-        float x, y;
-        float deadzone = 0.2;
+public:
+    cv::Point2f getState();
+    void setState(float x, float y);
+    float getX();
+    float getY();
+    void setX(float x);
+    void setY(float y);
+    float getDeadzone();
+    void setDeadzone(float deadzone);
+
+private:
+    float x, y;
+    float deadzone = 0.2f;
 };
 
 #endif

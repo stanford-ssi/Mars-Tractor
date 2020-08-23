@@ -8,21 +8,18 @@
  */
 
 #include "axis.h"
-#include "button.h"
 #include <gtest/gtest.h>
 
-TEST(gtest, button)
-{
-    Button button = Button();
-    ASSERT_FALSE(button.getState());
-    button.setState(true);
-    ASSERT_TRUE(button.getState());
-}
-TEST(gtest2, axis)
+/** 
+ * @test Set_Get
+ * -----------------------------
+ * Checks if axis setters and getters are working properly.
+ */
+TEST(AxisTests, axis)
 {
     Axis axis = Axis();
-    axis.setX(.4);
+    axis.setX(.4f);
     axis.setY(-1);
-    ASSERT_EQ(axis.getX(), (float).4);
+    ASSERT_EQ(axis.getX(), .4f);
     ASSERT_EQ(axis.getY(), -1);
 }
