@@ -10,6 +10,7 @@ This repository aims to autonomously control a mars tractor for terraforming.
 #### Windows:
 - Install Visual Studio Community Edition from this link
 - [Visual Studio](https://visualstudio.microsoft.com/)
+
 - During installation, click on Desktop development with C++ workload and install.
 
 #### Linux:
@@ -31,6 +32,7 @@ Windows:
 - Install git from this link
 - [Git](https://git-scm.com/downloads)
 - During installation, leave default/recommended options.
+
 
 Linux:
 - Type this command in your terminal
