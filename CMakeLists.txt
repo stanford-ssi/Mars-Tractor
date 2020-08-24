@@ -37,6 +37,8 @@ find_package( Doxygen )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 include_directories( ${GTest_INCLUDE_DIRS} )
 include_directories( ${jsoncpp_INCLUDE_DIRS} )
+find_path(BOOST_ASIO_INCLUDE_DIRS "boost/asio.hpp")
+find_path(BOOST_SIGNALS2_INCLUDE_DIRS "boost/signals2.hpp")
 
 # Additional Library Directories
 link_directories( ${OpenCV_LIB_DIR} )
@@ -47,11 +49,9 @@ link_directories( ${jsoncpp_LIB_DIR} )
 target_link_libraries( main ${OpenCV_LIBS} opencv_aruco jsoncpp_lib)
 target_link_libraries( tests PRIVATE ${OpenCV_LIBS} opencv_aruco jsoncpp_lib GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main )
 
-#add_test( AllTestsInMain tests )
-
 # Link Local Header Files
-target_include_directories( main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include )
-target_include_directories( tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include )
+target_include_directories( main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include ${BOOST_ASIO_INCLUDE_DIRS} ${BOOST_SIGNALS2_INCLUDE_DIRS} )
+target_include_directories( tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include ${BOOST_ASIO_INCLUDE_DIRS} ${BOOST_SIGNALS2_INCLUDE_DIRS} )
 
 # Generate Documentation
 option( BUILD_DOC "Build documentation" OFF )
