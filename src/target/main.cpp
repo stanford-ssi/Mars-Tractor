@@ -7,7 +7,7 @@
  * This file determines autonomous functionality or controlled functionality of the Mars tractor.
  */
 
-#include "camera.h"
+#include <camera.hpp>
 //#include "dualshock.h"
 #include <iostream>
 #include <opencv2/aruco.hpp>
