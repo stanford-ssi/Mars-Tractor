@@ -4,7 +4,7 @@
  * @date July 2020
  */
 
-#include <button.h>
+#include <button.hpp>
 
 bool Button::getState() { return this->isDown; }
 

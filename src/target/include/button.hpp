@@ -1,4 +1,4 @@
-/** @file button.h
+/** @file button.hpp
  * -----------------------------
  * @brief This file defines an button class for interacting with dualshock buttons.
  * @author Bartolone, Kai

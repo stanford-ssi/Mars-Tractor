@@ -14,7 +14,7 @@ find_package( Qt5 COMPONENTS Widgets REQUIRED )
 find_path( BOOST_ASIO_INCLUDE_DIRS "boost/asio.hpp" )
 
 # Define source files to compile
-file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/include/* ${CMAKE_CURRENT_SOURCE_DIR}/libs/* )
+file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/cont.cpp ${CMAKE_CURRENT_SOURCE_DIR}/include/* ${CMAKE_CURRENT_SOURCE_DIR}/libs/* )
 
 # Add executable
 add_executable( console ${SRCFILES} )

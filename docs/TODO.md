@@ -1,3 +1,2 @@
-1. Find out what doxygen is
 1. Write tests for dualshock.h
-1. event handling c++
+1. make it so that the tcp server can skip frames

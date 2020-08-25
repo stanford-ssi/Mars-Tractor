@@ -6,20 +6,20 @@
 #ifndef _dualshock_Included
 #define _dualshock_Included
 
-#include "axis.h"
-#include "button.h"
-#include "motion.h"
-#include "touchpad.h"
-#include "trigger.h"
+#include <axis.hpp>
 #include <bits/stdc++.h>
+#include <button.hpp>
 #include <fcntl.h>
 #include <linux/input-event-codes.h>
 #include <linux/input.h>
 #include <linux/ioctl.h>
 #include <linux/joystick.h>
+#include <motion.h>
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <touchpad.h>
+#include <trigger.h>
 #include <unistd.h>
 #include <unordered_map>
 #include <vector>
@@ -27,7 +27,7 @@
 class Dualshock
 {
 public:
-    Dualshock(Dualshock &&) =
+    Dualshock(Dualshock&&) =
         default;    // This little man ensures that our default constructor and destructor do not
                     // override the implicit generation of the move constructor that is essential to
                     // having a thread in the class
@@ -37,8 +37,8 @@ public:
      * Parameter values are usually "/dev/input/jsX" and "/dev/input/eventX" where X is a
      * number.
      */
-    Dualshock(const std::string &joystickPath, const std::string &touchpadPath,
-              const std::string &motionPath);
+    Dualshock(const std::string& joystickPath, const std::string& touchpadPath,
+              const std::string& motionPath);
 
     /**
      * Alternate constructor that finds input paths. Will throw error if paths cannot be found
@@ -65,31 +65,31 @@ public:
      */
     void startPolling();
 
-    Motion getMotion(const std::string &id);
+    Motion getMotion(const std::string& id);
     /**
      * Returns gamepad button with provided name.
      */
-    Button getButton(const std::string &id);
+    Button getButton(const std::string& id);
 
     /**
      * Returns gamepad button state with provided name.
      */
-    bool getButtonState(const std::string &id);
+    bool getButtonState(const std::string& id);
 
     /**
      * Returns gamepad trigger with provided id.
      */
-    Trigger getTrigger(const std::string &id);
+    Trigger getTrigger(const std::string& id);
 
     /**
      * Returns value of gamepad trigger with provided id.
      */
-    float getTriggerValue(const std::string &id);
+    float getTriggerValue(const std::string& id);
 
     /**
      * Returns gamepad axis with provided id.
      */
-    Axis getAxis(const std::string &id);
+    Axis getAxis(const std::string& id);
 
     /**
      * Returns values of gamepad axis with provided id.
@@ -144,7 +144,7 @@ private:
     void generateMaps();
     void writeMotion(std::string id, std::string code, int value);
     void writeDPAD(char type, int value);
-    void writeAxes(const std::string &id, char type, float value);
+    void writeAxes(const std::string& id, char type, float value);
     bool isPath(char name[256], int fd);
     void saveRumble();
     void freeRumble();
