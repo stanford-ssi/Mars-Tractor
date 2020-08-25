@@ -7,7 +7,7 @@
  * Tests all methods and ensures that exceptions are thrown when inputs are invalid.
  */
 
-#include "button.h"
+#include <button.h>
 #include <gtest/gtest.h>
 #include <iostream>
 

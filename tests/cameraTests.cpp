@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 #include <opencv2/opencv.hpp>
-#include "camera.h"
+#include <camera.hpp>
 
 TEST(camera_calibration, regression)
 {
