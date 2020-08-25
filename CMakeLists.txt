@@ -16,9 +16,8 @@ project( tractor )
 # Add project subdirectories
 add_subdirectory( src/console )
 add_subdirectory( src/target )
-
-# add_subdirectory( tests )
-# enable_testing()
+add_subdirectory( tests )
+enable_testing()
 
 
 # Generate Documentation
