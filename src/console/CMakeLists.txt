@@ -10,15 +10,15 @@ set( CMAKE_INCLUDE_CURRENT_DIR ON )
 set( CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/forms )
 
 # Find packages
-find_package( Qt5 COMPONENTS Widgets REQUIRED )
+find_package( Qt5 COMPONENTS Widgets Svg REQUIRED )
 find_path( BOOST_ASIO_INCLUDE_DIRS "boost/asio.hpp" )
 
 # Define source files to compile
-file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/cont.cpp ${CMAKE_CURRENT_SOURCE_DIR}/include/* ${CMAKE_CURRENT_SOURCE_DIR}/libs/* )
+file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/include/* ${CMAKE_CURRENT_SOURCE_DIR}/libs/* ${CMAKE_CURRENT_SOURCE_DIR}/forms/* )
 
 # Add executable
 add_executable( console ${SRCFILES} )
 
 # Link libraries
-target_link_libraries( console PRIVATE Qt5::Widgets )
+target_link_libraries( console PRIVATE Qt5::Widgets Qt5::Svg )
 target_include_directories( console PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include )
