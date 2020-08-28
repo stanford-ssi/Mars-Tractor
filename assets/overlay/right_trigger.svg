@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -9,12 +7,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="26.19375mm"
-   height="24.024166mm"
-   viewBox="0 0 26.19375 24.024166"
+   width="28.700001mm"
+   height="26.322828mm"
+   viewBox="0 0 28.700001 26.322829"
    version="1.1"
    id="svg837"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="1.0 (b51213c273, 2020-08-10)"
    sodipodi:docname="right_trigger.svg">
   <defs
      id="defs831" />
@@ -25,17 +23,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="127.57144"
-     inkscape:cy="350.8"
+     inkscape:zoom="1.4"
+     inkscape:cx="196.02972"
+     inkscape:cy="216.69224"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="958"
-     inkscape:window-height="1018"
-     inkscape:window-x="953"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1920"
+     inkscape:window-height="977"
+     inkscape:window-x="0"
+     inkscape:window-y="26"
+     inkscape:window-maximized="1"
+     inkscape:document-rotation="0" />
   <metadata
      id="metadata834">
     <rdf:RDF>
@@ -44,7 +43,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -52,9 +51,9 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-72.080058,-217.62501)">
+     transform="translate(-72.080055,-217.62501)">
     <g
-       transform="matrix(0.26458333,0,0,0.26458333,99.623183,124.70334)"
+       transform="matrix(0.28989899,0,0,0.28989899,102.25854,115.81248)"
        id="g16">
       <g
          id="g6">
@@ -70,7 +69,7 @@
            d="m -103.6,434.4 c 0,0 26.1,-4.4 49,-4.4 22.8,0 47.9,4.4 47.9,4.4 1,4.7 1.6,7.6 1.6,7.6 0,0 -32.7,-3.2 -50.6,-3.2 -17.9,0 -48.4,2.4 -48.4,2.4 0,0 0.2,-2.7 0.5,-6.8 z" />
       </g>
       <g
-         style="opacity:0.07999998"
+         style="opacity:0.08"
          id="g14">
         <g
            id="g10">
