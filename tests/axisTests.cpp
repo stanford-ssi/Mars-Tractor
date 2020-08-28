@@ -10,14 +10,14 @@
 #include <axis.hpp>
 #include <gtest/gtest.h>
 
-/** 
+/**
  * @test Set_Get
  * -----------------------------
  * Checks if axis setters and getters are working properly.
  */
 TEST(AxisTests, axis)
 {
-    Axis axis = Axis();
+    Axis axis();
     axis.setX(.4f);
     axis.setY(-1);
     ASSERT_EQ(axis.getX(), .4f);

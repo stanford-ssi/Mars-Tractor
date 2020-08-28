@@ -4,14 +4,14 @@
  * @date July 2020
  */
 
-#include "dualshock.h"
+#include <dualshock.hpp>
 
-Dualshock::Dualshock(const std::string &joystickPath, const std::string &touchpadPath,
-                     const std::string &motionPath)    // TODO: Check if parameters leak memory.
+Dualshock::Dualshock(const std::string& joystickPath, const std::string& touchpadPath,
+                     const std::string& motionPath) // TODO: Check if parameters leak memory.
 {
-    const char *jsPath = joystickPath.c_str();
-    const char *tpPath = touchpadPath.c_str();
-    const char *moPath = motionPath.c_str();
+    const char* jsPath = joystickPath.c_str();
+    const char* tpPath = touchpadPath.c_str();
+    const char* moPath = motionPath.c_str();
 
     this->jfd = open(jsPath, O_RDWR | O_NONBLOCK);
     this->tfd = open(tpPath, O_RDONLY | O_NONBLOCK);
@@ -70,7 +70,7 @@ Dualshock::Dualshock()
         num++;
         path = path + std::to_string(num);
 
-        const char *fullPath = path.c_str();
+        const char* fullPath = path.c_str();
         fd = open(fullPath, O_RDWR | O_NONBLOCK);
     }
 
@@ -164,12 +164,12 @@ void Dualshock::readMotion()
         {
         case EV_ABS:
         {
-            if (id.length() == 1)    // left
+            if (id.length() == 1) // left
             {
-                int value = 180 * (mo.value + maxL) / maxL;    // sets value to degrees
+                int value = 180 * (mo.value + maxL) / maxL; // sets value to degrees
                 writeMotion("A", id, value);
             }
-            else    // right
+            else // right
             {
                 int value = 180 * (mo.value + maxR) / (maxR);
                 writeMotion("B", id, value);
@@ -217,11 +217,11 @@ void Dualshock::readJoystick()
         {
             char type = id[id.length() - 1];
             id = id.substr(0, id.length() - 1);
-            if (id[0] == 'D')    // if the event is a dpad
+            if (id[0] == 'D') // if the event is a dpad
             {
                 writeDPAD(type, js.value);
             }
-            else    // the event is a genuine axis
+            else // the event is a genuine axis
             {
                 writeAxes(id, type, js.value);
             }
@@ -245,7 +245,7 @@ void Dualshock::writeDPAD(char type, int value)
     }
     else
     {
-        value = -value;    // inverted for you
+        value = -value; // inverted for you
         direction1 = "UP";
         direction2 = "DOWN";
     }
@@ -269,10 +269,10 @@ void Dualshock::writeDPAD(char type, int value)
     }
 }
 
-void Dualshock::writeAxes(const std::string &id, char type, float value)
+void Dualshock::writeAxes(const std::string& id, char type, float value)
 {
     float triggerValue = (float)value / (float)255;
-    float axisValue = ((float)value - (float)127.5) / (float)127.5;    // makes it from -1 to 1
+    float axisValue = ((float)value - (float)127.5) / (float)127.5; // makes it from -1 to 1
 
     switch (type)
     {
@@ -317,7 +317,7 @@ void Dualshock::generateMaps()
     }
 }
 
-Button Dualshock::getButton(const std::string &id)
+Button Dualshock::getButton(const std::string& id)
 {
     if (!buttons.count(id))
     {
@@ -326,7 +326,7 @@ Button Dualshock::getButton(const std::string &id)
     return buttons[id];
 }
 
-bool Dualshock::getButtonState(const std::string &id)
+bool Dualshock::getButtonState(const std::string& id)
 {
     if (!buttons.count(id))
     {
@@ -336,7 +336,7 @@ bool Dualshock::getButtonState(const std::string &id)
     return button.getState();
 }
 
-Motion Dualshock::getMotion(const std::string &id)
+Motion Dualshock::getMotion(const std::string& id)
 {
     if (!motions.count(id))
     {
@@ -378,7 +378,7 @@ void Dualshock::printOut()
               << std::endl;
 }
 
-Axis Dualshock::getAxis(const std::string &id)
+Axis Dualshock::getAxis(const std::string& id)
 {
     if (!axes.count(id))
     {
@@ -388,7 +388,7 @@ Axis Dualshock::getAxis(const std::string &id)
     return axis;
 }
 
-Trigger Dualshock::getTrigger(const std::string &id)
+Trigger Dualshock::getTrigger(const std::string& id)
 {
     if (!triggers.count(id))
     {
@@ -398,7 +398,7 @@ Trigger Dualshock::getTrigger(const std::string &id)
     return trigger;
 }
 
-float Dualshock::getTriggerValue(const std::string &id)
+float Dualshock::getTriggerValue(const std::string& id)
 {
     if (!triggers.count(id))
     {
@@ -415,7 +415,7 @@ void Dualshock::rumble(int duration)
     play.code = this->effect.id;
     play.value = 1;
 
-    write(jfd, (const void *)&play, sizeof(play));
+    write(jfd, (const void*)&play, sizeof(play));
 
     sleep(duration);
 

@@ -12,7 +12,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-    class MainWindow;
+class MainWindow;
 }
 QT_END_NAMESPACE
 
@@ -20,20 +20,12 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-private:
+  private:
     Ui::MainWindow* ui;
-
-protected:
-    /**
-     * @fn painEvent
-     * -----------------------------
-     * Overloads default paint constructor in order to display connection icons. 
-     */
-    void paintEvent(QPaintEvent*) override;
 };
 
-#endif    // MAINWINDOW_H
+#endif // MAINWINDOW_H

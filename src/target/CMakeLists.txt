@@ -2,8 +2,8 @@
 # file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/include/* ${CMAKE_CURRENT_SOURCE_DIR}/libs/* )
 
 #Uncomment these when running on non-linux target
-file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/include/* ${CMAKE_CURRENT_SOURCE_DIR}/libs/* )
-list( REMOVE_ITEM SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/include/dualshock.h ${CMAKE_CURRENT_SOURCE_DIR}/libs/dualshock.cpp )
+ file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/include/* ${CMAKE_CURRENT_SOURCE_DIR}/libs/* )
+ list( REMOVE_ITEM SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/include/dualshock.h ${CMAKE_CURRENT_SOURCE_DIR}/libs/dualshock.cpp )
 
 # Add executable
 add_executable( target ${SRCFILES} )

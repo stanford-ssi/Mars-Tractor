@@ -4,7 +4,7 @@
  * @author Bartolone, Kai
  * @date August 2020
  */
- 
+
 #ifndef _EVENT_HPP
 #define _EVENT_HPP
 
@@ -12,7 +12,9 @@
 
 class Event
 {
-    public:
+    Event(Event&&) = default;
+
+  public:
     /**
      * @fn addEventListener
      * -------------------------
@@ -23,16 +25,15 @@ class Event
      is
      * a member function.
      */
-    template <typename Fn, typename... Args> void addEventListener(Fn &&fn, Args &&... args)
+    template <typename Fn, typename... Args> void addEventListener(Fn&& fn, Args&&... args)
     {
         signal.connect(std::bind(fn, (args)...));
         hasEvent = true;
     }
 
-protected:
+  protected:
     bool hasEvent = false;
-    boost::signals2::signal<void ()> signal;
+    boost::signals2::signal<void()> signal;
 };
-
 
 #endif

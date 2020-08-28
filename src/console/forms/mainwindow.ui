@@ -51,7 +51,7 @@
           </attribute>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QWidget" name="widget_2" native="true">
+            <widget class="Overlay" name="widget_2" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
@@ -100,7 +100,7 @@
             <x>0</x>
             <y>0</y>
             <width>264</width>
-            <height>363</height>
+            <height>360</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4"/>
@@ -140,7 +140,7 @@
        <item>
         <widget class="Overlay" name="overlay" native="true">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -181,7 +181,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>386</width>
+            <width>292</width>
             <height>180</height>
            </rect>
           </property>
@@ -189,7 +189,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QWidget" name="icon" native="true">
+        <widget class="StatusView" name="icon" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -215,7 +215,7 @@
      <x>0</x>
      <y>0</y>
      <width>836</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -226,6 +226,12 @@
    <class>Overlay</class>
    <extends>QWidget</extends>
    <header location="global">overlay.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StatusView</class>
+   <extends>QWidget</extends>
+   <header location="global">statusview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

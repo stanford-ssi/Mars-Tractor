@@ -1,14 +1,16 @@
 # the minimum version of CMake required
 cmake_minimum_required( VERSION 3.8 )
 
-# Checks for VCPKG ENV
-if( NOT DEFINED ENV{VCPKG} )
-    message( STATUS "VCPKG environmental variable has not been set" )
-endif()
-set( CMAKE_TOOLCHAIN_FILE $ENV{VCPKG} )
-list( APPEND CMAKE_MODULE_PATH ${VCPKG_ROOT_DIR}/downloads/tools )
-
+set( CMAKE_CXX_STANDARD 11 )
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
+# Set Unix flags
+if ( UNIX )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread" )
+endif ()
 
 # Create project
 project( tractor )
