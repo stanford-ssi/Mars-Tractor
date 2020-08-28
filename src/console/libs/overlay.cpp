@@ -97,26 +97,18 @@ void Overlay::drawAll(QPaintDevice* device, QPoint corner, double scale)
     QPoint point = QPoint(0, 0);
     QSvgRenderer renderer;
 
-    unordered_map<string, QPoint> icons = {{"dpad_down", {136, 263}},
-                                           {"dpad_left", {92, 226}},
-                                           {"dpad_right", {174, 226}},
-                                           {"dpad_up", {136, 181}},
-                                           {"home", {382, 382}},
-                                           {"left_bumper", {109, 94}},
-                                           {"left_stick_pressed", {228, 308}},
-                                           {"left_trigger", {109, 0}},
-                                           {"o_button", {690, 217}},
-                                           {"right_bumper", {603, 94}},
-                                           {"right_stick_pressed", {484, 308}},
-                                           {"right_trigger", {600, 0}},
-                                           {"square_button", {567, 217}},
-                                           {"share", {484, 308}},
-                                           {"options", {484, 308}},
-                                           {"right_stick", {484, 308}},
-                                           {"left_stick", {228, 308}},
-                                           {"touchpad", {272, 122}},
-                                           {"triangle_button", {629, 159}},
-                                           {"x_button", {629, 276}}};
+    unordered_map<string, QPoint> icons = {
+        {"cursor", {269, 119}},      {"dpad_down", {136, 255}},
+        {"dpad_left", {92, 226}},    {"dpad_right", {165, 226}},
+        {"dpad_up", {136, 181}},     {"home", {382, 344}},
+        {"left_bumper", {109, 94}},  {"left_stick_pressed", {228, 308}},
+        {"left_trigger", {108, 0}},  {"o_button", {682, 217}},
+        {"right_bumper", {598, 94}}, {"right_stick_pressed", {484, 308}},
+        {"right_trigger", {597, 0}}, {"square_button", {567, 217}},
+        {"share", {227, 142}},       {"options", {551, 142}},
+        {"right_stick", {484, 308}}, {"left_stick", {228, 308}},
+        {"touchpad", {272, 122}},    {"triangle_button", {629, 159}},
+        {"x_button", {629, 276}}};
 
     int i = 0;
     for (pair<string, QPoint> pair : icons)
@@ -127,8 +119,9 @@ void Overlay::drawAll(QPaintDevice* device, QPoint corner, double scale)
         {
             cout << pair.first << endl;
             i++;
-            test.setX(92 + 0);
-            test.setY(181 + 45);
+            //{382, 382 - 38}{690, 217}
+            test.setX(567 + 170 - 55);
+            test.setY(217);
             cout << test.x() << " " << test.y() << endl;
         }
         else

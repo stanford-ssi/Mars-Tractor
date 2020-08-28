@@ -140,7 +140,7 @@
        <item>
         <widget class="Overlay" name="overlay" native="true">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -181,7 +181,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>292</width>
+            <width>386</width>
             <height>180</height>
            </rect>
           </property>
