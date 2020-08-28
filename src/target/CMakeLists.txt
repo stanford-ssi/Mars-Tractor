@@ -26,3 +26,6 @@ target_link_libraries( target ${OpenCV_LIBS} opencv_aruco jsoncpp_lib )
 
 # Link Local Header Files
 target_include_directories( target PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include )
+
+# Copy executable to main build folder
+COPY_FILE_INTO_DIRECTORY_IF_CHANGED( ${CMAKE_BINARY_DIR}/src/target/target ${CMAKE_BINARY_DIR} target )
