@@ -12,9 +12,11 @@
 
 class Event
 {
-    Event(Event&&) = default;
-
   public:
+  Event(){}
+    Event(const Event& obj);
+    ~Event();
+
     /**
      * @fn addEventListener
      * -------------------------
@@ -27,13 +29,13 @@ class Event
      */
     template <typename Fn, typename... Args> void addEventListener(Fn&& fn, Args&&... args)
     {
-        signal.connect(std::bind(fn, (args)...));
+        signal->connect(std::bind(fn, (args)...));
         hasEvent = true;
     }
 
   protected:
     bool hasEvent = false;
-    boost::signals2::signal<void()> signal;
+    boost::signals2::signal<void()>* signal;
 };
 
 #endif

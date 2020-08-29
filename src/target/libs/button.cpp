@@ -13,7 +13,7 @@ void Button::setState(bool state)
     this->isDown = state;
     if (this->hasEvent && this->isDown)
     {
-        this->signal();
+        (*signal)();
         return;
     }
 }
