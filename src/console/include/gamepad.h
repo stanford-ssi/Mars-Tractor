@@ -8,22 +8,27 @@
 #ifndef _GAMEPAD_H
 #define _GAMEPAD_H
 
-#include <QPoint>
 #include <unordered_map>
 
-// struct Point
-// {
-//     double x, y;
-// };
+struct Point
+{
+    double x, y;
+};
 
 class Gamepad
 {
+  public:
+    Gamepad();
+    ~Gamepad();
+    bool getButtonState(const std::string& name);
+    void setButtonState(const std::string& name, bool state);
 
   private:
-    std::unordered_map<std::string, bool> buttons;
-    std::unordered_map<std::string, QPoint> axes;
+    std::unordered_map<std::string, bool>* buttons;
+    std::unordered_map<std::string, Point>* axes;
 
-    QPoint touchpad;
+    Point touchpad;
+    bool isConnected;
 };
 
 #endif

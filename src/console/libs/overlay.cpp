@@ -38,7 +38,9 @@ void Overlay::paintEvent(QPaintEvent*)
 
     QPoint corner = locateCorner(renderer->defaultSize(), renderer->viewBox().size());
     double scale = getScale(renderer->defaultSize(), renderer->viewBox().size());
-    drawAll(this, corner, scale);
+    // drawAll(this, corner, scale);
+    gamepad.setButtonState("dpad_down", true);
+    paintTest(this, corner, scale);
 
     delete renderer;
 }
@@ -151,4 +153,91 @@ void Overlay::drawAll(QPaintDevice* device, QPoint corner, double scale)
         QPainter painter(device);
         painter.drawImage(location, image);
     }
+}
+
+void Overlay::paintTest(QPaintDevice* device, QPoint corner, double scale)
+{
+    using namespace std;
+    QPainter painter(device);
+    QSvgRenderer renderer;
+
+    unordered_map<string, QPoint> icons = {{"dpad_down", {136, 255}},
+                                           {"dpad_left", {92, 226}},
+                                           {"dpad_right", {165, 226}},
+                                           {"dpad_up", {136, 181}},
+                                           {"home", {382, 344}},
+                                           {"left_bumper", {109, 94}},
+                                           {"left_stick_pressed", {228, 308}},
+                                           {"left_trigger", {108, 0}},
+                                           {"o_button", {682, 217}},
+                                           {"right_bumper", {598, 94}},
+                                           {"right_stick_pressed", {484, 308}},
+                                           {"right_trigger", {597, 0}},
+                                           {"square_button", {567, 217}},
+                                           {"share", {227, 142}},
+                                           {"options", {551, 142}},
+                                           {"touchpad", {272, 122}},
+                                           {"triangle_button", {629, 159}},
+                                           {"x_button", {629, 276}}};
+
+    for (pair<string, QPoint> pair : icons)
+    {
+        if (gamepad.getButtonState(pair.first))
+        {
+            string filename = "assets/overlay/" + pair.first + ".svg";
+            renderer.load(QString(filename.c_str()));
+
+            int width = (int)round((double)renderer.defaultSize().width() * scale);
+            int height = (int)round((double)renderer.defaultSize().height() * scale);
+
+            QPoint location = QPoint((int)round((double)pair.second.x() * scale) + corner.x(),
+                                     (int)round((double)pair.second.y() * scale) + corner.y());
+
+            QImage image(width, height, QImage::Format_ARGB32);
+            image.fill(Qt::transparent);
+            QPainter imagePainter(&image);
+            renderer.render(&imagePainter);
+
+            QPainter painter(device);
+            painter.drawImage(location, image);
+        }
+    }
+}
+
+void Overlay::mousePressEvent(QMouseEvent* event)
+{
+    using namespace std;
+    std::unordered_map<std::string, QPoint> icons = {{"dpad_down", {136, 255}},
+                                                     {"dpad_left", {92, 226}},
+                                                     {"dpad_right", {165, 226}},
+                                                     {"dpad_up", {136, 181}},
+                                                     {"home", {382, 344}},
+                                                     {"left_bumper", {109, 94}},
+                                                     {"left_stick_pressed", {228, 308}},
+                                                     {"left_trigger", {108, 0}},
+                                                     {"o_button", {682, 217}},
+                                                     {"right_bumper", {598, 94}},
+                                                     {"right_stick_pressed", {484, 308}},
+                                                     {"right_trigger", {597, 0}},
+                                                     {"square_button", {567, 217}},
+                                                     {"share", {227, 142}},
+                                                     {"options", {551, 142}},
+                                                     {"touchpad", {272, 122}},
+                                                     {"triangle_button", {629, 159}},
+                                                     {"x_button", {629, 276}}};
+
+    if (event->button() == Qt::LeftButton)
+    {
+        QPoint pos = event->pos();
+        for (pair<string, QPoint> pair : icons)
+        {
+            QPoint loc = pair.second;
+            if (loc.x() < pos.x() + 50 && loc.x() > pos.x() - 50 && loc.y() < pos.y() + 50 &&
+                loc.y() > pos.y() - 50)
+            {
+                gamepad.setButtonState(pair.first, !gamepad.getButtonState(pair.first));
+            }
+        }
+    }
+    update();
 }
