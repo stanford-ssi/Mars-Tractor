@@ -31,6 +31,9 @@ class MainWindow : public QMainWindow
   private:
     Ui::MainWindow* ui;
     TcpClient client;
+
+  protected:
+    void mousePressEvent(QMouseEvent* e) override;
 };
 
 #endif // MAINWINDOW_H

@@ -29,6 +29,7 @@ TcpClient::TcpClient(const std::string& serverName)
 
 TcpClient::~TcpClient()
 {
+    // TODO::fix this it is really bad
     if (clientThread.joinable()) clientThread.join();
     delete messageQueue;
 }
@@ -56,15 +57,16 @@ void TcpClient::listen()
         else if (error)
             throw boost::system::system_error(error); // Some other error
 
-        for (char c : buf)
+        std::string temp;
+        std::copy(buf.begin(), buf.begin() + len, std::back_inserter(temp));
+        message += temp;
+
+        size_t pos = message.find("}");
+        while (pos != std::string::npos)
         {
-            message += c;
-            if (c == '}')
-            {
-                std::cout << message << std::endl;
-                messageQueue->push(message);
-                message = "";
-            }
+            messageQueue->push(message.substr(0, pos + 1));
+            message = message.substr(pos + 1);
+            pos = message.find("}");
         }
     }
 }

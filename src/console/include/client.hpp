@@ -11,13 +11,15 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include <queue>
-#include <stack>
+#include <stack>#include <QObject>
 
 using boost::asio::ip::tcp;
 
 class TcpClient
 {
-public:
+
+    Q_OBJECT
+  public:
     /**
      * @fn TcpClient
      * -------------------------
@@ -36,11 +38,11 @@ public:
     /**
      * @fn getNextMessage
      * -------------------------
-     * Gets next message; returns empty string if no messages have been received.
+     * Gets next message. returns empty string if no messages have been received.
      */
     std::string getNextMessage();
 
-private:
+  private:
     std::queue<std::string>* messageQueue;
     boost::asio::io_context io_context;
     tcp::resolver resolver;
@@ -49,7 +51,7 @@ private:
     bool socketConnected = false;
     std::thread clientThread;
 
-private:
+  private:
     /**
      * @fn listen
      * -----------------------------
@@ -58,6 +60,8 @@ private:
      */
     void listen();
 
+  private slots:
+    void readBuffer(const std::string& buf);
 };
 
 #endif

@@ -25,10 +25,6 @@ class LogView : public QWidget
     explicit LogView(QWidget* parent = nullptr);
     ~LogView();
 
-  private:
-    Ui::LogView* ui;
-
-  private:
     /**
      * @fn addLog
      * -------------------------
@@ -36,6 +32,10 @@ class LogView : public QWidget
      */
     void addLog(const std::string& text);
 
+  private:
+    Ui::LogView* ui;
+
+  private:
     /**
      * @fn constructLog
      * -------------------------

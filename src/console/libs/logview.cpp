@@ -14,7 +14,7 @@ LogView::LogView(QWidget* parent) : QWidget(parent), ui(new Ui::LogView)
     ui->layout->setAlignment(Qt::AlignTop);
 
     connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(on_lineEdit_returnPressed()));
-    connect(ui->scrollArea, SIGNAL(resizeEvent()), this, SLOT(on_scrollArea_resize()));
+    // connect(ui->scrollArea, SIGNAL(resizeEvent()), this, SLOT(on_scrollArea_resize()));
 }
 
 LogView::~LogView() { delete ui; }
