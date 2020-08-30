@@ -1,9 +1,10 @@
-#Uncomment these when running on linux target
-# file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/**/* )
-
-#Uncomment these when running on non-linux target
-file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/**/* )
-list( REMOVE_ITEM SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/include/dualshock.h ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/libs/dualshock.cpp )
+# Set Unix flags
+if ( UNIX )
+    file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/**/* )
+else()
+    file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/**/* )
+    list( REMOVE_ITEM SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/include/dualshock.hpp ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/libs/dualshock.cpp )
+endif ()
 
 # Add executable
 add_executable( tests ${SRCFILES} )

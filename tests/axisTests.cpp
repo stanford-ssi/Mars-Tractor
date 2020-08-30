@@ -17,7 +17,7 @@
  */
 TEST(AxisTests, axis)
 {
-    Axis axis();
+    Axis axis = Axis();
     axis.setX(.4f);
     axis.setY(-1);
     ASSERT_EQ(axis.getX(), .4f);

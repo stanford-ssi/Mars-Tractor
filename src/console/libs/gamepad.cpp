@@ -1,4 +1,5 @@
-/** @file gamepad.cpp
+/**
+ * @file gamepad.cpp
  * -----------------------------
  * @author Bartolone, Kai
  * @date August 2020

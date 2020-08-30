@@ -1,5 +1,12 @@
-#include "display.h"
-#include "ui_display.h"
+/**
+ * @file display.h
+ * -----------------------------
+ * @author Bartolone, Kai
+ * @date August 2020
+ */
+
+#include <display.h>
+#include <ui_display.h>
 
 Display::Display(QWidget* parent) : QWidget(parent), ui(new Ui::Display) { ui->setupUi(this); }
 

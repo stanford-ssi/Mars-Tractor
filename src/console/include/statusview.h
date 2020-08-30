@@ -1,4 +1,5 @@
-/** @file statusview.h
+/**
+ * @file statusview.h
  * -----------------------------
  * @brief Defines connection icon at bottom right of gui.
  * @author Bartolone, Kai

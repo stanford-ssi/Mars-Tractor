@@ -1,4 +1,5 @@
-/** @file statusview.cpp
+/**
+ * @file statusview.cpp
  * -----------------------------
  * @author Bartolone, Kai
  * @date August 2020

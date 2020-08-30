@@ -5,8 +5,10 @@
  * @date June 2020
  */
 
+#include <chrono>
 #include <gtest/gtest.h>
 #include <server.hpp>
+#include <thread>
 
 /** @test Run_Server
  * -----------------------------
@@ -18,7 +20,17 @@ TEST(ServerTests, Run_Server)
     while (!server.hasConnection())
     {
         std::cout << "No Connection" << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(2));
     }
-    server.addMessage("log", "this is a test");
+
+    std::cout << "Connected" << std::endl;
+    std::string oop = "test";
+
+    while (oop != "q")
+    {
+        std::cin >> oop;
+        std::cout << "echo" << oop << std::endl;
+        server.addMessage("log", oop);
+    }
     server.~TcpServer();
 }

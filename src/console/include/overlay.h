@@ -1,4 +1,5 @@
-/** @file overlay.h
+/**
+ * @file overlay.h
  * -----------------------------
  * @brief Defines dualshock overlay.
  * @author Bartolone, Kai

@@ -1,4 +1,5 @@
-/** @file overlay.cpp
+/**
+ * @file overlay.cpp
  * -----------------------------
  * @author Bartolone, Kai
  * @date August 2020

@@ -1,3 +1,10 @@
+/**
+ * @file display.h
+ * -----------------------------
+ * @author Bartolone, Kai
+ * @date August 2020
+ */
+
 #ifndef DISPLAY_H
 #define DISPLAY_H
 

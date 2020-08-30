@@ -49,9 +49,8 @@ add_subdirectory( src/console )
 add_subdirectory( src/target )
 add_subdirectory( tests )
 
-
 # Generate Documentation
-option( BUILD_DOC "Build documentation" ON )
+option( BUILD_DOC "Build documentation" OFF )
 
 if ( BUILD_DOC )
 find_package( Doxygen )

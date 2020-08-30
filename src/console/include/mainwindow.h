@@ -1,4 +1,5 @@
-/** @file mainwindow.h
+/**
+ * @file mainwindow.h
  * -----------------------------
  * @author Bartolone, Kai
  * @date August 2020
@@ -8,6 +9,7 @@
 #define MAINWINDOW_H
 
 #include <QtWidgets/QMainWindow>
+#include <client.hpp>
 #include <gamepad.h>
 #include <iostream>
 
@@ -28,6 +30,7 @@ class MainWindow : public QMainWindow
 
   private:
     Ui::MainWindow* ui;
+    TcpClient client;
 };
 
 #endif // MAINWINDOW_H

@@ -1,4 +1,5 @@
-/** @file gamepad.h
+/**
+ * @file gamepad.h
  * -----------------------------
  * @brief Simple gamepad container for overlay.
  * @author Bartolone, Kai
