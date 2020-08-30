@@ -455,3 +455,16 @@ void Dualshock::freeRumble()
     int check = ioctl(jfd, EVIOCRMFF, this->effect.id);
     std::cout << check << std::endl;
 }
+
+std::string Dualshock::serialize()
+{
+    JSON::Value gamepad;
+
+    gamepad["x_button"] = getButtonState("X");
+
+    getButtonState("X");
+    getButtonState("X");
+
+
+    return gamepad.toString();
+}

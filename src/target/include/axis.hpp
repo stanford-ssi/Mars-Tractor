@@ -8,13 +8,12 @@
 #ifndef _AXIS_HPP
 #define _AXIS_HPP
 
-#include "event.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <opencv2/core/types.hpp>
 #include <stdexcept>
 
-class Axis : public Event
+class Axis
 {
 public:
     cv::Point2f getState();

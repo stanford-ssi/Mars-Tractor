@@ -111,6 +111,13 @@ namespace cf
      * Calculates euler angles give rotation matrix.
      */
     cv::Vec3d rotationMatrixToEulerAngles(const cv::Mat &R);
+
+    /**
+     * @fn serializeMat
+     * -------------------------
+     * Turns mat object into a string for transportation over servers.
+     */
+    std::string serializeMat(const cv::Mat& src);
 }    // namespace cf
 
 #endif

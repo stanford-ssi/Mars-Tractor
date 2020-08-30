@@ -23,6 +23,7 @@
 #include <unistd.h>
 #include <unordered_map>
 #include <vector>
+#include <json/json.h>
 
 class Dualshock
 {
@@ -102,6 +103,13 @@ class Dualshock
      * Prints out state of Dualshock.
      */
     void printOut();
+
+    /**
+     * @fn serialize
+     * -------------------------
+     * Turns Dualshock information into a json style string.
+     */
+    std::string serialize();
 
   private:
     std::thread jsThread;

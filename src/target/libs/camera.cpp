@@ -302,3 +302,9 @@ void cf::displayPosition(cv::Mat &img, const cv::Vec3d &tvecs, const cv::Vec3d &
     cv::putText(img, rotationText, cv::Point(0, 50), cv::FONT_HERSHEY_PLAIN, 1.25,
                 cv::Scalar(66, 135, 245));
 }
+
+    std::string serializeMat(const cv::Mat& src)
+    {
+        std::string result;
+        return result;
+    }

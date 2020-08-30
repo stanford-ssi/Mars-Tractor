@@ -11,9 +11,8 @@ bool Button::getState() { return this->isDown; }
 void Button::setState(bool state)
 {
     this->isDown = state;
-    if (this->hasEvent && this->isDown)
-    {
-        (*signal)();
-        return;
-    }
+    // if (this->hasEvent && this->isDown)
+    // {
+    //     return;
+    // }
 }

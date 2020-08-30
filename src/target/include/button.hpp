@@ -9,10 +9,9 @@
 #define _BUTTON_H
 
 #include <thread>
-#include "event.hpp"
 
 /** @class Button */
-class Button : public Event
+class Button
 {
 public:
     /**
