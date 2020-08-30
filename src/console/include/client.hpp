@@ -7,18 +7,19 @@
 #ifndef _CLIENT_HPP
 #define _CLIENT_HPP
 
+#include <QObject>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <iostream>
 #include <queue>
-#include <stack>#include <QObject>
+#include <stack>
 
 using boost::asio::ip::tcp;
 
-class TcpClient
+class TcpClient : public QObject
 {
-
     Q_OBJECT
+
   public:
     /**
      * @fn TcpClient
@@ -60,8 +61,10 @@ class TcpClient
      */
     void listen();
 
-  private slots:
-    void readBuffer(const std::string& buf);
-};
+    void readBuffer(std::string& buf);
 
+  signals:
+
+    void queuePushed();
+};
 #endif

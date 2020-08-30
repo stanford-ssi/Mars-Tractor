@@ -61,13 +61,7 @@ void TcpClient::listen()
         std::copy(buf.begin(), buf.begin() + len, std::back_inserter(temp));
         message += temp;
 
-        size_t pos = message.find("}");
-        while (pos != std::string::npos)
-        {
-            messageQueue->push(message.substr(0, pos + 1));
-            message = message.substr(pos + 1);
-            pos = message.find("}");
-        }
+        readBuffer(message);
     }
 }
 
@@ -82,4 +76,17 @@ std::string TcpClient::getNextMessage()
     }
 
     return result;
+}
+
+void TcpClient::readBuffer(std::string& buf)
+{
+    size_t pos = buf.find("}");
+
+    while (pos != std::string::npos)
+    {
+        messageQueue->push(buf.substr(0, pos + 1));
+        buf = buf.substr(pos + 1);
+        queuePushed();
+        pos = buf.find("}");
+    }
 }

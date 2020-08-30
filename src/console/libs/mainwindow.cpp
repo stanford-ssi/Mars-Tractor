@@ -12,20 +12,28 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), client("192.168.1.59")
 {
     ui->setupUi(this);
+
+    connect(&client, &TcpClient::queuePushed, this, &MainWindow::test);
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::mousePressEvent(QMouseEvent* e)
+// void MainWindow::mousePressEvent(QMouseEvent* e)
+// {
+//     using namespace std;
+//     if (e->button() == Qt::LeftButton)
+//     {
+//         string message = client.getNextMessage();
+//         if (message != "")
+//         {
+//             ui->logView->addLog(message);
+//         }
+//         std::cout << "checked for message" << std::endl;
+//     }
+// }
+
+void MainWindow::test()
 {
-    using namespace std;
-    if (e->button() == Qt::LeftButton)
-    {
-        string message = client.getNextMessage();
-        if (message != "")
-        {
-            ui->logView->addLog(message);
-        }
-        std::cout << "checked for message" << std::endl;
-    }
+    std::cout << "test" << std::endl;
+    ui->logView->addLog(client.getNextMessage());
 }

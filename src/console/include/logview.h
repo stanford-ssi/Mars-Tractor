@@ -25,13 +25,6 @@ class LogView : public QWidget
     explicit LogView(QWidget* parent = nullptr);
     ~LogView();
 
-    /**
-     * @fn addLog
-     * -------------------------
-     * Displays log message in console window.
-     */
-    void addLog(const std::string& text);
-
   private:
     Ui::LogView* ui;
 
@@ -57,6 +50,14 @@ class LogView : public QWidget
      * Resizes scrollAreaContents to scrollArea
      */
     void on_scrollArea_resize();
+
+  public slots:
+    /**
+     * @fn addLog
+     * -------------------------
+     * Displays log message in console window.
+     */
+    void addLog(const std::string& text);
 };
 
 #endif // LOGVIEW_H
