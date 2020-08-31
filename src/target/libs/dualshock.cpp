@@ -462,9 +462,6 @@ std::string Dualshock::serialize()
 
     gamepad["x_button"] = getButtonState("X");
 
-    getButtonState("X");
-    getButtonState("X");
-
 
     return gamepad.toString();
 }

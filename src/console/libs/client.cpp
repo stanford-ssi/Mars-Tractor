@@ -10,26 +10,12 @@
 TcpClient::TcpClient(const std::string& serverName)
     : messageQueue(new std::queue<std::string>), resolver(io_context)
 {
-    try
-    {
-        endpoints = resolver.resolve(serverName, "daytime");
-        socketConnected = true;
-    }
-    catch (const std::exception& e)
-    {
-        socketConnected = false;
-        // log this to gui somehow std::cerr << e.what() << '\n';
-    }
-
-    if (socketConnected)
-    {
-        clientThread = std::thread(&TcpClient::listen, this);
-    }
 }
 
 TcpClient::~TcpClient()
 {
     // TODO::fix this it is really bad
+    resolver.cancel();
     if (clientThread.joinable()) clientThread.join();
     delete messageQueue;
 }
@@ -88,5 +74,27 @@ void TcpClient::readBuffer(std::string& buf)
         buf = buf.substr(pos + 1);
         queuePushed();
         pos = buf.find("}");
+    }
+}
+
+void TcpClient::connect()
+{
+    for (;;)
+    {
+        try
+        {
+            endpoints = resolver.resolve(serverName, "daytime");
+            socketConnected = true;
+        }
+        catch (const std::exception& e)
+        {
+            socketConnected = false;
+            // log this to gui somehow std::cerr << e.what() << '\n';
+        }
+
+        if (socketConnected)
+        {
+            clientThread = std::thread(&TcpClient::listen, this);
+        }
     }
 }

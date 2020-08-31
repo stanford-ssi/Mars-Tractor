@@ -1,8 +1,7 @@
-/** @file cameraTests.cpp
+/** @file serverTests.cpp
  * -----------------------------
- * @brief Tests camera functions.
  * @author Bartolone, Kai
- * @date June 2020
+ * @date August 2020
  */
 
 #include <chrono>

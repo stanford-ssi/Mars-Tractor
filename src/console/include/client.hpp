@@ -43,6 +43,14 @@ class TcpClient : public QObject
      */
     std::string getNextMessage();
 
+    /**
+     * @fn connect
+     * -----------------------------
+     * Attempts to connect to socket on clientThread. This function will throw an exception if there
+     * is a problem.
+     */
+    void connect();
+
   private:
     std::queue<std::string>* messageQueue;
     boost::asio::io_context io_context;
@@ -67,4 +75,5 @@ class TcpClient : public QObject
 
     void queuePushed();
 };
+
 #endif
