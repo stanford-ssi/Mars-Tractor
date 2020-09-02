@@ -148,10 +148,12 @@ void TcpClient::parseMessage(const std::string& message)
 {
     using namespace std;
 
-    if (message.substr(2, message.find('"')) == "frame")
+    string front = message.substr(2, message.find('"'));
+    if (front == "frame")
     {
         string result = message.substr(message.find(':') + 2, message.find('"'));
         sendFrame(result);
+        return;
     }
 
     Json::CharReaderBuilder builder;
@@ -160,7 +162,6 @@ void TcpClient::parseMessage(const std::string& message)
     Json::Value root;
     string errors;
 
-    cout << message << endl;
     bool parsingSuccessful =
         reader->parse(message.c_str(), message.c_str() + message.size(), &root, &errors);
     delete reader;

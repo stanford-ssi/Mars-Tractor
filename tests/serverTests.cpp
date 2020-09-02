@@ -29,7 +29,7 @@ TEST(ServerTests, SendFrame)
 
     while (oop != "q")
     {
-        cv::Mat frame = cv::Mat(cv::Size(1920, 1080), CV_8UC3, cv::Scalar(255, 255, 255));
+        cv::Mat frame = cv::Mat(cv::Size(1920, 1080), CV_8UC3, cv::Scalar(0, 255, 255));
         server.addMessage("frame", cf::serializeMat(frame));
         std::cout << "frame sent" << std::endl;
         std::this_thread::sleep_for(std::chrono::seconds(2));
