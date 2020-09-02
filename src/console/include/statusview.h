@@ -28,6 +28,7 @@ class StatusView : public QWidget
 
   private:
     Ui::StatusView* ui;
+    bool hasConnection = false;
 
   protected:
     /**
@@ -36,6 +37,14 @@ class StatusView : public QWidget
      * Overloads default paint constructor in order to display connection status svg.
      */
     void paintEvent(QPaintEvent*) override;
+
+  public slots:
+    /**
+     * @fn changeConnectionStatus
+     * -------------------------
+     * Changes hasConnection.
+     */
+    void changeConnectionStatus(bool status);
 };
 
 #endif // STATUSVIEW_H

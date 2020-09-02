@@ -6,9 +6,9 @@
 
 #include <camera.hpp>
 
-void cf::locateTarget(const cv::Mat &src, cv::Mat &dst) {}
+void cf::locateTarget(const cv::Mat& src, cv::Mat& dst) {}
 
-int cf::capture(const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs, float markerDimensions)
+int cf::capture(const cv::Mat& cameraMatrix, const cv::Mat& distCoeffs, float markerDimensions)
 {
     cv::Mat frame;
     std::vector<int> markerIds = {7};
@@ -80,8 +80,8 @@ void cf::createArucoMarkers()
     }
 }
 
-bool cf::loadCameraCalibration(const std::string &filename, cv::Mat &cameraMatrix,
-                               cv::Mat &distCoeffs)
+bool cf::loadCameraCalibration(const std::string& filename, cv::Mat& cameraMatrix,
+                               cv::Mat& distCoeffs)
 {
     std::ifstream inStream(filename);
     if (!inStream.is_open()) return false;
@@ -111,7 +111,7 @@ bool cf::loadCameraCalibration(const std::string &filename, cv::Mat &cameraMatri
     return true;
 }
 
-bool cf::detectTarget(const cv::Mat &src, std::vector<cv::Point2f> &targetCorners)
+bool cf::detectTarget(const cv::Mat& src, std::vector<cv::Point2f>& targetCorners)
 {
     // Greyscale image
     cv::Mat grey;
@@ -173,7 +173,7 @@ bool cf::detectTarget(const cv::Mat &src, std::vector<cv::Point2f> &targetCorner
     return false;
 }
 
-bool cf::checkContour(const cv::Mat &src, const std::vector<cv::Point> &contour,
+bool cf::checkContour(const cv::Mat& src, const std::vector<cv::Point>& contour,
                       double minPerimeterRate, double maxPerimeterRate,
                       double minCornerDistanceRate, int minDistanceToBorder)
 {
@@ -217,8 +217,8 @@ bool cf::checkContour(const cv::Mat &src, const std::vector<cv::Point> &contour,
     return true;
 }
 
-Position cf::estimatePose(const std::vector<cv::Point2f> &targetCorners, float targetDimension,
-                          const cv::Mat &cameraMatrix, const cv::Mat &distCoeffs)
+Position cf::estimatePose(const std::vector<cv::Point2f>& targetCorners, float targetDimension,
+                          const cv::Mat& cameraMatrix, const cv::Mat& distCoeffs)
 {
     std::vector<cv::Point2f> cameraPoints;
     cv::Vec3d rvecs, tvecs;
@@ -227,7 +227,7 @@ Position cf::estimatePose(const std::vector<cv::Point2f> &targetCorners, float t
     return Position(tvecs[0], tvecs[1], tvecs[2], rvecs[0], rvecs[1], rvecs[2]);
 }
 
-void cf::displayPosition(cv::Mat &src, Position position)
+void cf::displayPosition(cv::Mat& src, Position position)
 {
     std::string translationText = "x: " + std::to_string(position.x) +
                                   ", y: " + std::to_string(position.y) +
@@ -251,29 +251,29 @@ Position::Position(double x, double y, double z, double row, double theta, doubl
     this->psi = psi;
 }
 
-void cf::displayMat(const cv::Mat &img, int delay)
+void cf::displayMat(const cv::Mat& img, int delay)
 {
     cv::namedWindow("Image", cv::WINDOW_AUTOSIZE);
     cv::imshow("Image", img);
     if (cv::waitKey(delay) >= 0) return;
 }
 
-cv::Vec3d cf::rotationMatrixToEulerAngles(const cv::Mat &R)
+cv::Vec3d cf::rotationMatrixToEulerAngles(const cv::Mat& R)
 {
 
-    //assert(isRotationMatrix(R));
+    // assert(isRotationMatrix(R));
 
-    double sy =
-        std::sqrt(R.at<double>(0, 0) * R.at<double>(0, 0) + R.at<double>(1, 0) * R.at<double>(1, 0));
+    double sy = std::sqrt(R.at<double>(0, 0) * R.at<double>(0, 0) +
+                          R.at<double>(1, 0) * R.at<double>(1, 0));
 
-    bool singular = sy < 1e-6;    // If
+    bool singular = sy < 1e-6; // If
 
     double x, y, z;
     if (!singular)
     {
         x = std::atan2(R.at<double>(2, 1), R.at<double>(2, 2)) * 180 / 3.14;
-        y = std::atan2(-R.at<double>(2, 0), sy)* 180 / 3.14;
-        z = std::atan2(R.at<double>(1, 0), R.at<double>(0, 0))* 180 / 3.14;
+        y = std::atan2(-R.at<double>(2, 0), sy) * 180 / 3.14;
+        z = std::atan2(R.at<double>(1, 0), R.at<double>(0, 0)) * 180 / 3.14;
     }
     else
     {
@@ -285,7 +285,7 @@ cv::Vec3d cf::rotationMatrixToEulerAngles(const cv::Mat &R)
     return cv::Vec3d(x, y, z);
 }
 
-void cf::displayPosition(cv::Mat &img, const cv::Vec3d &tvecs, const cv::Vec3d &rvecs)
+void cf::displayPosition(cv::Mat& img, const cv::Vec3d& tvecs, const cv::Vec3d& rvecs)
 {
     cv::Mat R;
     cv::Rodrigues(rvecs, R);
@@ -303,8 +303,14 @@ void cf::displayPosition(cv::Mat &img, const cv::Vec3d &tvecs, const cv::Vec3d &
                 cv::Scalar(66, 135, 245));
 }
 
-    std::string serializeMat(const cv::Mat& src)
-    {
-        std::string result;
-        return result;
-    }
+std::string cf::serializeMat(const cv::Mat& src)
+{
+    using namespace std;
+
+    vector<uchar> buf;
+    imencode(".jpg", src, buf);
+
+    string result(buf.begin(), buf.end());
+    cout << "server -  " << result << endl;
+    return result;
+}

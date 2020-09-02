@@ -23,10 +23,9 @@ class Display : public QWidget
 
   public:
     explicit Display(QWidget* parent = nullptr);
-    ~Display();
 
-    static QImage Mat2QImage(cv::Mat const& src);
-    static cv::Mat QImage2Mat(QImage const& src);
+    static QImage Mat2QImage(const cv::Mat& src);
+    static cv::Mat QImage2Mat(const QImage& src);
 
   private:
     Ui::Display* ui;
@@ -40,13 +39,10 @@ class Display : public QWidget
     void paintEvent(QPaintEvent*) override;
 
   private:
-    /**
-     * @fn paintMat
-     * -------------------------
-     * Paints OpenCV mat object on widget. Can only be called in paintEvent.
-     * @param img is the source image to be painted
-     */
-    void paintMat(QPaintDevice* device, const cv::Mat& src);
+    cv::Mat screen;
+
+  public slots:
+    void decodeFrame(const std::string& frameData);
 };
 
 #endif // DISPLAY_H

@@ -10,21 +10,21 @@
 
 Display::Display(QWidget* parent) : QWidget(parent), ui(new Ui::Display) { ui->setupUi(this); }
 
-Display::~Display() { delete ui; }
-
-void Display::paintEvent(QPaintEvent*) { paintMat(this, cv::Mat()); }
-
-void Display::paintMat(QPaintDevice* device, const cv::Mat& src)
+void Display::paintEvent(QPaintEvent*)
 {
-    cv::Mat test = cv::Mat(320, 240, CV_8UC3, cv::Scalar(0, 0, 0));
-    QImage img = Mat2QImage(test);
-    img.scaled(QSize(this->width(), this->height()), Qt::KeepAspectRatio);
+    // Check if Mat object is empty
+    if (screen.empty()) screen = cv::imread("assets/images/no_signal_screen.jpg");
 
-    QPainter painter(device);
-    painter.drawImage(QPoint(0, 0), img);
+    // Convert Mat image to QImage
+    QImage img = Mat2QImage(screen);
+    QImage scaled = img.scaled(QSize(this->width(), this->height()), Qt::KeepAspectRatio);
+
+    // Draw image onto widget
+    QPainter painter(this);
+    painter.drawImage(QPoint(0, 0), scaled);
 }
 
-QImage Display::Mat2QImage(cv::Mat const& src)
+QImage Display::Mat2QImage(const cv::Mat& src)
 {
     // Convert Mat to QImage colorspace
     cv::Mat temp;
@@ -36,10 +36,22 @@ QImage Display::Mat2QImage(cv::Mat const& src)
     return result;
 }
 
-cv::Mat Display::QImage2Mat(QImage const& src)
+cv::Mat Display::QImage2Mat(const QImage& src)
 {
+    cv::Mat result;
     cv::Mat tmp(src.height(), src.width(), CV_8UC3, (uchar*)src.bits(), src.bytesPerLine());
-    cv::Mat result; // deep copy just in case (my lack of knowledge with open cv)
     cv::cvtColor(tmp, result, cv::COLOR_BGR2RGB);
+
     return result;
+}
+
+void Display::decodeFrame(const std::string& frameData)
+{
+    using namespace std;
+
+    cout << frameData << endl;
+    vector<uchar> buf(frameData.begin(), frameData.end());
+    screen = cv::imdecode(buf, 1);
+
+    repaint();
 }

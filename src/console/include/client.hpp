@@ -11,8 +11,9 @@
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <iostream>
+#include <json/json.h>
 #include <queue>
-#include <stack>
+#include <string>
 
 using boost::asio::ip::tcp;
 
@@ -58,6 +59,7 @@ class TcpClient : public QObject
     tcp::resolver::results_type endpoints;
     std::string serverName;
     bool socketConnected = false;
+    bool isRunning;
     std::thread clientThread;
 
   private:
@@ -68,12 +70,26 @@ class TcpClient : public QObject
      * connected.
      */
     void listen();
+    void run();
 
+    /**
+     * @fn parseMessage
+     * -----------------------------
+     * Parses message into json object and sends correct signals.
+     */
+    void parseMessage(const std::string& message);
+
+    /**
+     * @fn readBuffer
+     * ---------------------------
+     * Reads char buffer and sections off complete messages.
+     */
     void readBuffer(std::string& buf);
 
   signals:
-
-    void queuePushed();
+    void sendLog(const std::string& message);
+    void sendFrame(const std::string& message);
+    void sendConnectionStatus(bool status);
 };
 
 #endif

@@ -17,11 +17,10 @@ StatusView::~StatusView() { delete ui; }
 
 void StatusView::paintEvent(QPaintEvent*)
 {
-    bool hasConnection = true; // TODO: fix for true server connection
     QSvgRenderer* renderer;
 
     // Get correct status connection icon
-    if (!hasConnection)
+    if (hasConnection)
     {
         renderer = new QSvgRenderer(QString("assets/icons/wifi.svg"));
     }
@@ -37,4 +36,10 @@ void StatusView::paintEvent(QPaintEvent*)
     renderer->setViewBox(QRectF(0, 0, this->width(), this->height()));
 
     delete renderer;
+}
+
+void StatusView::changeConnectionStatus(bool status)
+{
+    hasConnection = status;
+    repaint();
 }

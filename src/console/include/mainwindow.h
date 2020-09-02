@@ -12,6 +12,7 @@
 #include <client.hpp>
 #include <gamepad.h>
 #include <iostream>
+#include <string>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -26,17 +27,10 @@ class MainWindow : public QMainWindow
 
   public:
     MainWindow(QWidget* parent = nullptr);
-    ~MainWindow();
 
   private:
     Ui::MainWindow* ui;
     TcpClient client;
-
-  public slots:
-    void test();
-
-    // protected:
-    //   void mousePressEvent(QMouseEvent* e) override;
 };
 
 #endif // MAINWINDOW_H

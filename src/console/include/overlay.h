@@ -51,11 +51,11 @@ class Overlay : public QWidget
     void paintEvent(QPaintEvent*) override;
 
     /**
-     * @fn mousePressEvent
+     * @fn key
      * -----------------------------
-     * FOR DEMO PURPOSES ONLY
+     * FOR DEMO PURPOSES ONLY DELETE LATER
      */
-    void mousePressEvent(QMouseEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
 
     Gamepad gamepad;
 
