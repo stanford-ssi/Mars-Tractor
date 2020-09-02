@@ -458,10 +458,26 @@ void Dualshock::freeRumble()
 
 std::string Dualshock::serialize()
 {
-    JSON::Value gamepad;
+    Json::Value gamepad;
 
     gamepad["x_button"] = getButtonState("X");
+    gamepad["dpad_down"] = getButtonState("");
+    gamepad["dpad_up"] = getButtonState("UP");
+    gamepad["dpad_down"] = getButtonState("DOWN");
+    gamepad["dpad_left"] = getButtonState("LEFT");
+    gamepad["dpad_right"] = getButtonState("RIGHT");
+    gamepad["home"] = getButtonState("PS");
+    gamepad["o_button"] = getButtonState("O");
+    gamepad["triangle_button"] = getButtonState("TRIANGLE");
+    gamepad["square_button"] = getButtonState("SQUARE");
+    gamepad["left_bumper"] = getButtonState("LB");
+    gamepad["right_bumper"] = getButtonState("RB");
+    gamepad["left_trigger"] = getButtonState("LT");
+    gamepad["right_trigger"] = getButtonState("RT");
+    gamepad["share"] = getButtonState("SHARE");
+    gamepad["options"] = getButtonState("OPTIONS");
+    gamepad["left_stick_pressed"] = getButtonState("LJSB");
+    gamepad["right_stick_pressed"] = getButtonState("RJSB");
 
-
-    return gamepad.toString();
+    return "";
 }

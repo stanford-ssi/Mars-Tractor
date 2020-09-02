@@ -1,6 +1,7 @@
 # Set Unix flags
 if ( UNIX )
     file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/**/* )
+    list( REMOVE_ITEM SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/buttonTests.cpp ${CMAKE_CURRENT_SOURCE_DIR}/axisTests.cpp )
 else()
     file( GLOB SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/**/* $CMAKE_CURRENT_SOURCE_DIR}/../src/console/include/client.hpp $CMAKE_CURRENT_SOURCE_DIR}/../src/console/libs/client.cpp )
     list( REMOVE_ITEM SRCFILES ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/include/dualshock.hpp ${CMAKE_CURRENT_SOURCE_DIR}/../src/target/libs/dualshock.cpp ${CMAKE_CURRENT_SOURCE_DIR}/buttonTests.cpp ${CMAKE_CURRENT_SOURCE_DIR}/axisTests.cpp )

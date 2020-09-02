@@ -42,15 +42,25 @@ void TcpServer::run()
                 pair<string, string> pair = messageQueue->front();
                 messageQueue->pop();
 
-                // Convert message to JSON
-                Json::Value message;
-                message[pair.first] = pair.second;
+                std::string output;
+                // TODO: quick fix
+                if (pair.first == "frame")
+                {
+                    output = '{' + pair.first + pair.second + '}';
+                }
+                else
+                {
+                    // Convert message to JSON
+                    Json::Value message;
+                    message[pair.first] = pair.second;
 
-                // Convert JSON to string
-                Json::StreamWriterBuilder builder;
-                builder["indentation"] = "";    // If you want whitespace-less output
-                const std::string output = Json::writeString(builder, message);
+                    // Convert JSON to string
+                    Json::StreamWriterBuilder builder;
+                    builder["indentation"] = ""; // If you want whitespace-less output
+                    output = Json::writeString(builder, message);
+                }
 
+                output = output + " ";
                 // Send message to client
                 boost::system::error_code ignored_error;
                 boost::asio::write(socket, boost::asio::buffer(output), ignored_error);
@@ -67,7 +77,7 @@ void TcpServer::run()
 
 bool TcpServer::addMessage(std::string id, std::string value)
 {
-    using namespace std;    // For string usage
+    using namespace std; // For string usage
 
     // Checks for server socket connection to client
     if (!socketConnected) return false;

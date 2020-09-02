@@ -9,6 +9,7 @@
 #ifndef _GAMEPAD_H
 #define _GAMEPAD_H
 
+#include <string>
 #include <unordered_map>
 
 struct Point

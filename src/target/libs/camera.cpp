@@ -308,9 +308,8 @@ std::string cf::serializeMat(const cv::Mat& src)
     using namespace std;
 
     vector<uchar> buf;
-    imencode(".jpg", src, buf);
+    cv::imencode(".jpg", src, buf);
 
     string result(buf.begin(), buf.end());
-    cout << "server -  " << result << endl;
     return result;
 }

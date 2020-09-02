@@ -73,15 +73,15 @@ std::string TcpClient::getNextMessage()
 
 void TcpClient::readBuffer(std::string& buf)
 {
-    size_t pos = buf.find("}");
+    size_t pos = buf.find(" ");
 
     while (pos != std::string::npos)
     {
-        messageQueue->push(buf.substr(0, pos + 1));
+        messageQueue->push(buf.substr(0, pos));
         // std::cout << buf.substr(0, pos + 1) << std::endl;
-        parseMessage(buf.substr(0, pos + 1));
-        buf = buf.substr(pos + 1);
-        pos = buf.find("}");
+        parseMessage(buf.substr(0, pos));
+        buf = buf.substr(pos + 2);
+        pos = buf.find(" ");
     }
 }
 void TcpClient::run()
@@ -148,10 +148,12 @@ void TcpClient::parseMessage(const std::string& message)
 {
     using namespace std;
 
-    string front = message.substr(2, message.find('"'));
+    string front = message.substr(1, message.find('e'));
     if (front == "frame")
     {
-        string result = message.substr(message.find(':') + 2, message.find('"'));
+        // string temp = message.substr(message.find(':') + 2, message.find('}'));
+        // string result = temp.substr(0, temp.length() - 1);
+        string result = message.substr(message.find('e') + 1, message.length());
         sendFrame(result);
         return;
     }

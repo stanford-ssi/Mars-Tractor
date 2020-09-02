@@ -15,6 +15,16 @@ void Display::paintEvent(QPaintEvent*)
     // Check if Mat object is empty
     if (screen.empty()) screen = cv::imread("assets/images/no_signal_screen.jpg");
 
+    // using namespace std;
+    // vector<uchar> buf;
+    // cv::imencode(".jpg", screen, buf);
+
+    // string frameData(buf.begin(), buf.end());
+    // size_t test = frameData.find('}');
+
+    // vector<uchar> buf2(frameData.begin(), frameData.end());
+    // screen = cv::imdecode(buf2, 1);
+
     // Convert Mat image to QImage
     QImage img = Mat2QImage(screen);
     QImage scaled = img.scaled(QSize(this->width(), this->height()), Qt::KeepAspectRatio);
@@ -49,7 +59,6 @@ void Display::decodeFrame(const std::string& frameData)
 {
     using namespace std;
 
-    cout << frameData << endl;
     vector<uchar> buf(frameData.begin(), frameData.end());
     screen = cv::imdecode(buf, 1);
 
