@@ -36,6 +36,8 @@ void LogView::on_lineEdit_returnPressed()
         ui->lineEdit->setText("");
         QLabel* label = constructLog(text);
         ui->layout->addWidget(label);
+
+        sendCommand(text.toStdString());
     }
 }
 

@@ -58,6 +58,9 @@ class LogView : public QWidget
      * Displays log message in console window.
      */
     void addLog(const std::string& text);
+
+  signals:
+    void sendCommand(const std::string& command);
 };
 
 #endif // LOGVIEW_H

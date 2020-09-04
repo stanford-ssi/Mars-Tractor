@@ -8,8 +8,7 @@
 #include <server.hpp>
 
 TcpServer::TcpServer()
-    : acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 13)),
-      messageQueue(new std::queue<std::pair<std::string, std::string>>),
+    : messageQueue(new std::queue<std::pair<std::string, std::string>>),
       serverThread(&TcpServer::run, this)
 {
 }
@@ -29,6 +28,10 @@ void TcpServer::run()
     {
         for (;;)
         {
+            boost::asio::io_context io_context;
+            boost::asio::ip::tcp::acceptor acceptor(
+                io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 13));
+
             // Create socket connection with client
             tcp::socket socket(io_context);
             acceptor.accept(socket);
@@ -91,7 +94,6 @@ bool TcpServer::addMessage(std::string id, std::string value)
 
 void TcpServer::stop()
 {
-    acceptor.close();
     if (serverThread.joinable()) serverThread.join();
 }
 

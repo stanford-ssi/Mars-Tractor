@@ -20,6 +20,7 @@ using namespace cf;
 
 int main()
 {
+    TcpServer server;
     /** Load Camera Matrix and Distortion Coeffs */
     Mat cameraMatrix, distCoeffs;
     if (!loadCameraCalibration("assets/config/C920_Calibration.json", cameraMatrix, distCoeffs))
@@ -61,7 +62,8 @@ int main()
             cf::displayPosition(frame, tvecs[i], rvecs[i]);
         }
         cv::imshow("Camera", frame);
-        if (cv::waitKey(30) >= 0) break;
+        server.addMessage("frame", cf::serializeMat(frame));
+        if (cv::waitKey(100) >= 0) break;
     }
 
     cap.release();

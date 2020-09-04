@@ -20,9 +20,9 @@
 
 class TcpServer
 {
-public:
+  public:
     // TcpServer(TcpServer&&) = default;
-    
+
     /**
      * @fn TcpServer
      * -------------------------
@@ -47,21 +47,19 @@ public:
      */
     bool addMessage(std::string id, std::string value);
 
-    /** 
+    /**
      * @fn hasConnection
      * -------------------------
      * This method is a getter for bool socketConnected.
      */
     bool hasConnection();
 
-protected:
-    boost::asio::io_context io_context;
-    boost::asio::ip::tcp::acceptor acceptor;
+  protected:
     bool socketConnected = false;
     std::queue<std::pair<std::string, std::string>>* messageQueue;
     std::thread serverThread;
 
-protected:
+  protected:
     /**
      * @fn run
      * -------------------------
@@ -76,7 +74,6 @@ protected:
      * Ends server.
      */
     void stop();
-
 
     // Mat to string maybe
 };

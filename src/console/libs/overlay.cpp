@@ -205,12 +205,8 @@ void Overlay::paintTest(QPaintDevice* device, QPoint corner, double scale)
     }
 }
 
-void Overlay::keyPressEvent(QKeyEvent* event)
+void Overlay::react(const std::string& command)
 {
-    std::cout << "tests" << std::endl;
-    if (event->key() == Qt::Key_A)
-    {
-        gamepad.setButtonState("o_button", !gamepad.getButtonState("o_button"));
-    }
+    gamepad.setButtonState(command, !gamepad.getButtonState(command));
     update();
 }

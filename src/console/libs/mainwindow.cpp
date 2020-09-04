@@ -16,4 +16,5 @@ MainWindow::MainWindow(QWidget* parent)
     connect(&client, &TcpClient::sendConnectionStatus, ui->statusView,
             &StatusView::changeConnectionStatus);
     connect(&client, &TcpClient::sendFrame, ui->display, &Display::decodeFrame);
+    connect(ui->logView, &LogView::sendCommand, ui->mainOverlay, &Overlay::react);
 }

@@ -50,13 +50,6 @@ class Overlay : public QWidget
      */
     void paintEvent(QPaintEvent*) override;
 
-    /**
-     * @fn key
-     * -----------------------------
-     * FOR DEMO PURPOSES ONLY DELETE LATER
-     */
-    void keyPressEvent(QKeyEvent* event) override;
-
     Gamepad gamepad;
 
     /** Private Functions */
@@ -95,6 +88,9 @@ class Overlay : public QWidget
      * @param scale is take the base svg renderer
      */
     void paintTest(QPaintDevice* device, QPoint corner, double scale);
+
+  public slots:
+    void react(const std::string& command);
 };
 
 #endif // OVERLAY_H

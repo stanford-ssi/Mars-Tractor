@@ -80,7 +80,7 @@ void TcpClient::readBuffer(std::string& buf)
         messageQueue->push(buf.substr(0, pos));
         // std::cout << buf.substr(0, pos + 1) << std::endl;
         parseMessage(buf.substr(0, pos));
-        buf = buf.substr(pos + 2);
+        buf = buf.substr(pos + 1);
         pos = buf.find(" ");
     }
 }
@@ -179,5 +179,9 @@ void TcpClient::parseMessage(const std::string& message)
     if (id == "log")
     {
         sendLog(root["log"].asString());
+    }
+    if (id == "gamepad")
+    {
+        sendLog(root["gamepad"].asString());
     }
 }
