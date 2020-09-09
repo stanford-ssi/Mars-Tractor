@@ -9,7 +9,7 @@
 #include <ui_mainwindow.h>
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), client("192.168.1.44")
+    : QMainWindow(parent), ui(new Ui::MainWindow), client("192.168.1.62")
 {
     ui->setupUi(this);
     connect(&client, &TcpClient::sendLog, ui->logView, &LogView::addLog);

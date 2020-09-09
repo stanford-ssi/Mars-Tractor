@@ -56,6 +56,8 @@ class TcpServer
 
   protected:
     bool socketConnected = false;
+    bool isRunning = true;
+    boost::asio::ip::tcp::socket* socket = nullptr;
     std::queue<std::pair<std::string, std::string>>* messageQueue;
     std::thread serverThread;
 

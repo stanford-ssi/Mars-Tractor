@@ -5,7 +5,7 @@
  * @date August 2020
  */
 
-#include "client.hpp"
+#include <client.hpp>
 
 TcpClient::TcpClient(const std::string& serverName)
     : messageQueue(new std::queue<std::string>), serverName(serverName)

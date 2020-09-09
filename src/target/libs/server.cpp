@@ -26,7 +26,7 @@ void TcpServer::run()
 
     try
     {
-        for (;;)
+        while (isRunning)
         {
             boost::asio::io_context io_context;
             boost::asio::ip::tcp::acceptor acceptor(
@@ -34,11 +34,12 @@ void TcpServer::run()
 
             // Create socket connection with client
             tcp::socket socket(io_context);
+            this->socket = &socket;
             acceptor.accept(socket);
             socketConnected = true;
 
             // Infinite loop of sending messages in message queue
-            for (;;)
+            while (isRunning)
             {
                 // Get message from messageQueue
                 if (messageQueue->empty()) continue;
@@ -94,6 +95,8 @@ bool TcpServer::addMessage(std::string id, std::string value)
 
 void TcpServer::stop()
 {
+    isRunning = false;
+    if (socket != nullptr) socket->close();
     if (serverThread.joinable()) serverThread.join();
 }
 
