@@ -65,6 +65,8 @@ Both:
     1. > vcpkg install gtest:triplet
     1. > vcpkg install jsoncpp:triplet
     1. > vcpkg install boost-signals2:triplet
+    1. > vcpkg install boost-asio:triplet
+    1. > vcpkg install qt5-base:triplet
 
 1. Type this command in your terminal inside of the vcpkg directory and copy the path to vcpkg.cmake
     - > vcpkg integrate install
