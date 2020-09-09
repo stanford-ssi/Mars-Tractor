@@ -8,7 +8,7 @@
 #include "client.hpp"
 
 TcpClient::TcpClient(const std::string& serverName)
-    : messageQueue(new std::queue<std::string>), resolver(io_context), serverName(serverName)
+    : messageQueue(new std::queue<std::string>), serverName(serverName)
 {
     clientThread = std::thread(&TcpClient::run, this);
 }
@@ -16,8 +16,8 @@ TcpClient::TcpClient(const std::string& serverName)
 TcpClient::~TcpClient()
 {
     // TODO::fix this it is really bad
-    resolver.cancel();
     isRunning = false;
+    if (socket != nullptr) socket->close();
     if (clientThread.joinable()) clientThread.join();
     delete messageQueue;
 }
@@ -103,6 +103,7 @@ void TcpClient::listen()
         tcp::resolver::iterator end;
 
         tcp::socket socket(io_service);
+        this->socket = &socket;
         boost::system::error_code error = boost::asio::error::host_not_found;
         while (error && endpoint_iterator != end)
         {
@@ -137,10 +138,12 @@ void TcpClient::listen()
     catch (std::exception& e)
     {
         socketConnected = false;
+        this->socket = nullptr;
         sendConnectionStatus(socketConnected);
 
         // TODO: instead of outputing to console output to logview
         std::cerr << e.what() << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 

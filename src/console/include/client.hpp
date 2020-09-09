@@ -10,6 +10,7 @@
 #include <QObject>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
+#include <chrono>
 #include <iostream>
 #include <json/json.h>
 #include <queue>
@@ -54,12 +55,10 @@ class TcpClient : public QObject
 
   private:
     std::queue<std::string>* messageQueue;
-    boost::asio::io_context io_context;
-    tcp::resolver resolver;
-    tcp::resolver::results_type endpoints;
+    tcp::socket* socket = nullptr;
     std::string serverName;
     bool socketConnected = false;
-    bool isRunning;
+    bool isRunning = true;
     std::thread clientThread;
 
   private:
