@@ -3,3 +3,4 @@ build/**/*
 docs/Doxyfile
 docs/docs/**/*
 docs/docs/*
+__pycache__
